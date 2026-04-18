@@ -1,242 +1,296 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ward 4 &mdash; Night Shift | PathoPharm Game</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font-sans)}
-#root{max-width:390px;margin:0 auto;background:#e8f2f8;min-height:700px;overflow-x:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#c8dce8;min-height:100vh;display:flex;justify-content:center}
+#root{width:100%;max-width:430px;background:#f0f4f8;min-height:100vh;position:relative}
 
 /* HOME */
-#home{background:var(--color-background-secondary);min-height:700px}
-.hh{background:#dceef5;padding:16px 14px 12px;border-bottom:1.5px solid #aacfdf;text-align:center}
+#home{background:#f0f4f8;min-height:100vh}
+.hh{background:#dceef5;padding:16px 14px 13px;border-bottom:2px solid #aacfdf;text-align:center}
 .hh-ico{font-size:38px;margin-bottom:4px}
-.hh-t{font-size:20px;font-weight:500;color:#0c447c}
+.hh-t{font-size:21px;font-weight:700;color:#0c447c}
 .hh-s{font-size:12px;color:#185fa5;margin-top:2px}
 .hh-tip{background:white;border:1px solid #b0d4e3;border-radius:8px;padding:8px 11px;margin-top:9px;font-size:12px;color:#2c6080;line-height:1.5}
-.mod-header{padding:10px 14px 4px;font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em}
-.sc-list{padding:0 14px 14px;display:flex;flex-direction:column;gap:7px}
-.sc-item{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:11px;padding:11px 13px;cursor:pointer;display:flex;align-items:center;gap:11px}
-.sc-item:active{background:var(--color-background-secondary)}
+.hh-tip b{font-weight:700}
+.mod-hdr{padding:10px 14px 4px;font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.06em}
+.sc-wrap{padding:0 14px 8px;display:flex;flex-direction:column;gap:6px}
+.sc-item{background:white;border:1px solid #e0e0e0;border-radius:11px;padding:11px 13px;cursor:pointer;display:flex;align-items:center;gap:11px;transition:background 0.12s}
+.sc-item:hover{background:#f5f5f5}
 .sc-ico{width:42px;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.sc-name{font-size:14px;font-weight:500;color:var(--color-text-primary)}
-.sc-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px;line-height:1.3}
-.diff{font-size:10px;padding:2px 7px;border-radius:10px;margin-top:3px;display:inline-block}
-.de{background:#E1F5EE;color:#0F6E56}.dm{background:#FAEEDA;color:#633806}.dh{background:#FAECE7;color:#993C1D}
+.sc-name{font-size:13px;font-weight:700;color:#1a1a1a}
+.sc-sub{font-size:11px;color:#666;margin-top:2px;line-height:1.3}
+.diff{font-size:10px;padding:2px 7px;border-radius:10px;margin-top:3px;display:inline-block;font-weight:600}
+.de{background:#e1f5ee;color:#0f6e56}
+.dm{background:#faeeda;color:#633806}
+.dh{background:#faece7;color:#993c1d}
 
-/* GAME WRAPPER */
-#game{display:none;flex-direction:column;min-height:700px}
+/* GAME */
+#game{display:none;flex-direction:column;min-height:100vh}
+
+/* ROOM WRAPPER — position:relative so overlay sits inside it */
+#room-wrap{position:relative;flex-shrink:0}
 
 /* ROOM */
-#room{width:100%;height:200px;background:#dceef5;position:relative;overflow:hidden;flex-shrink:0;border-bottom:2px solid #aacfdf}
-#rf{position:absolute;bottom:0;left:0;right:0;height:32px;background:#c2dce8}
-#rfl{position:absolute;bottom:32px;left:0;right:0;height:1px;background:#aacfdf}
-.wt{position:absolute;top:5px;left:7px;width:52px;height:42px;border:1.5px solid #aacfdf;border-radius:3px;background:#cce5ef}
-#win{position:absolute;top:7px;right:14px;width:52px;height:48px;border:2.5px solid #7ab8d0;border-radius:3px;background:#b8e0f0;overflow:hidden}
+#room{width:100%;height:190px;background:#dceef5;position:relative;overflow:hidden;border-bottom:2px solid #aacfdf}
+#rf{position:absolute;bottom:0;left:0;right:0;height:30px;background:#c2dce8}
+#rfl{position:absolute;bottom:30px;left:0;right:0;height:1px;background:#aacfdf}
+.wt{position:absolute;top:5px;left:7px;width:50px;height:40px;border:1.5px solid #aacfdf;border-radius:3px;background:#cce5ef}
+#win{position:absolute;top:7px;right:13px;width:50px;height:44px;border:2.5px solid #7ab8d0;border-radius:3px;background:#b8e0f0;overflow:hidden}
 #win::before{content:'';position:absolute;left:50%;top:0;width:1.5px;height:100%;background:#7ab8d0}
 #win::after{content:'';position:absolute;top:50%;left:0;height:1.5px;width:100%;background:#7ab8d0}
-.cloud{position:absolute;top:10px;right:18px;width:18px;height:10px;background:#d0eef8;border-radius:5px;opacity:0.7}
-
-/* HOME BTN overlay */
-#home-btn{position:absolute;top:6px;left:4px;background:rgba(255,255,255,0.88);border:1px solid #aacfdf;border-radius:6px;padding:3px 8px;font-size:11px;color:#0c447c;cursor:pointer;z-index:50;font-weight:500}
+#home-btn{position:absolute;top:7px;left:6px;background:rgba(255,255,255,0.95);border:1.5px solid #aacfdf;border-radius:7px;padding:4px 10px;font-size:11px;color:#0c447c;cursor:pointer;z-index:60;font-weight:700}
+#home-btn:hover{background:white}
 
 /* CABINET */
-#cabinet{position:absolute;bottom:32px;left:10px;width:50px;height:76px;cursor:pointer;user-select:none;z-index:15}
-.cb{position:absolute;inset:0;background:#c8b89a;border:2px solid #a89070;border-radius:4px}
-.cd{position:absolute;top:5px;left:4px;right:4px;bottom:5px;background:#ede0cc;border:1px solid #c4a882;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform 0.35s;transform-origin:left center}
-.cd.open{transform:rotateY(-65deg)}
-.cd-lbl{font-size:8px;font-weight:500;color:#7a5c3a;letter-spacing:0.03em;margin-bottom:2px}
-.cd-cross{width:14px;height:14px;position:relative}
-.cd-cross::before{content:'';position:absolute;width:14px;height:2px;background:#e05050;top:6px;border-radius:1px}
-.cd-cross::after{content:'';position:absolute;height:14px;width:2px;background:#e05050;left:6px;border-radius:1px}
-.ch{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:5px;height:16px;background:#a89070;border-radius:3px}
-#cab-hint{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:#7a5c3a;white-space:nowrap;pointer-events:none;font-weight:500}
-
-/* DRUG POPUP — shows above cabinet */
-#drug-popup{position:absolute;bottom:116px;left:4px;width:200px;background:white;border:1.5px solid #aacfdf;border-radius:10px;padding:8px;z-index:40;display:none;box-shadow:0 2px 10px rgba(0,0,0,0.12)}
-#drug-popup.show{display:block}
-#drug-popup::after{content:'';position:absolute;bottom:-7px;left:20px;border:4px solid transparent;border-top-color:#aacfdf}
-.dp-title{font-size:10px;font-weight:500;color:#2c6080;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;padding-bottom:4px;border-bottom:0.5px solid #dceef5}
-.dp-drug{display:flex;align-items:center;gap:7px;padding:6px 7px;border-radius:7px;cursor:pointer;border:0.5px solid transparent;margin-bottom:3px;transition:background 0.12s}
-.dp-drug:last-child{margin-bottom:0}
-.dp-drug:active{background:#f0f4f8}
-.dp-drug:hover{background:#f5f8fb;border-color:#dceef5}
-.dp-pill{width:16px;height:8px;border-radius:4px;flex-shrink:0}
-.dp-name{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.3}
-.dp-class{font-size:10px;color:var(--color-text-secondary)}
+#cabinet{position:absolute;bottom:30px;left:10px;width:50px;height:72px;cursor:pointer;user-select:none;z-index:15}
+.cb-body{position:absolute;inset:0;background:#c8b89a;border:2px solid #a89070;border-radius:4px}
+.cb-door{position:absolute;top:5px;left:4px;right:4px;bottom:5px;background:#ede0cc;border:1px solid #c4a882;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:transform 0.35s;transform-origin:left center}
+.cb-door.open{transform:rotateY(-60deg)}
+.cb-lbl{font-size:8px;font-weight:700;color:#7a5c3a;letter-spacing:0.03em}
+.cb-cross{width:13px;height:13px;position:relative}
+.cb-cross::before{content:'';position:absolute;width:13px;height:2px;background:#e05050;top:5.5px;border-radius:1px}
+.cb-cross::after{content:'';position:absolute;height:13px;width:2px;background:#e05050;left:5.5px;border-radius:1px}
+.cb-handle{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:5px;height:15px;background:#a89070;border-radius:3px}
+#cab-hint{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:#7a5c3a;white-space:nowrap;pointer-events:none;font-weight:700}
 
 /* BED */
-#bed{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);width:205px;cursor:pointer;user-select:none}
-.bb{width:205px;height:17px;background:#c4a882;border:2px solid #a88060;border-radius:4px 4px 0 0}
-.bf{width:205px;height:65px;background:#c4a882;border:2px solid #a88060;border-top:none;border-radius:0 0 4px 4px;position:relative}
-.bm{position:absolute;top:4px;left:6px;right:6px;height:34px;background:#f5f0e8;border-radius:3px;border:1px solid #ddd5c4}
-.bp{position:absolute;top:6px;left:9px;width:36px;height:20px;background:#fafaf8;border-radius:4px;border:1px solid #e0d9cc}
-.bbl{position:absolute;top:16px;left:9px;right:6px;height:20px;background:#7eb8d4;border-radius:2px;opacity:0.85}
-.bl-wrap{display:flex;justify-content:space-between;padding:0 10px}
-.bl{width:9px;height:7px;background:#a88060;border-radius:0 0 3px 3px}
-#pt-head{position:absolute;top:3px;left:11px;width:22px;height:22px;border-radius:50%;background:#f5c5a3;border:1.5px solid #e0a882;z-index:3}
-#pt-hair{position:absolute;top:3px;left:11px;width:22px;height:12px;border-radius:50% 50% 0 0;background:#5c3d1e;z-index:4}
-#bed-hint{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:#2c6080;white-space:nowrap;pointer-events:none;font-weight:500}
+#bed{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);width:200px;cursor:pointer;user-select:none}
+.bed-board{width:200px;height:16px;background:#c4a882;border:2px solid #a88060;border-radius:4px 4px 0 0}
+.bed-frame{width:200px;height:62px;background:#c4a882;border:2px solid #a88060;border-top:none;border-radius:0 0 4px 4px;position:relative}
+.bed-mattress{position:absolute;top:4px;left:5px;right:5px;height:31px;background:#f5f0e8;border-radius:3px;border:1px solid #ddd5c4}
+.bed-pillow{position:absolute;top:5px;left:8px;width:34px;height:19px;background:#fafaf8;border-radius:4px;border:1px solid #e0d9cc}
+.bed-blanket{position:absolute;top:15px;left:8px;right:5px;height:19px;background:#7eb8d4;border-radius:2px;opacity:0.85}
+.bed-legs{display:flex;justify-content:space-between;padding:0 10px}
+.bed-leg{width:9px;height:7px;background:#a88060;border-radius:0 0 3px 3px}
+#pt-head{position:absolute;top:3px;left:10px;width:21px;height:21px;border-radius:50%;background:#f5c5a3;border:1.5px solid #e0a882;z-index:3}
+#pt-hair{position:absolute;top:3px;left:10px;width:21px;height:11px;border-radius:50% 50% 0 0;z-index:4}
+#bed-hint{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:#2c6080;white-space:nowrap;pointer-events:none;font-weight:700}
 
 /* IV */
-#ivs{position:absolute;bottom:36px;right:30px;width:3px;height:65px;background:#b0b8c4;border-radius:2px}
-#ivb{position:absolute;bottom:98px;right:25px;width:16px;height:22px;background:#a8d8ea;border:1.5px solid #7bbad0;border-radius:3px 3px 5px 5px}
-#ivt{position:absolute;bottom:36px;right:31px;width:1.5px;height:62px;background:#7bbad0}
+#ivs{position:absolute;bottom:34px;right:28px;width:3px;height:60px;background:#b0b8c4;border-radius:2px}
+#ivb{position:absolute;bottom:92px;right:23px;width:15px;height:21px;background:#a8d8ea;border:1.5px solid #7bbad0;border-radius:3px 3px 5px 5px}
+#ivt{position:absolute;bottom:34px;right:29px;width:1.5px;height:58px;background:#7bbad0}
 
 /* NURSE */
-#nurse{position:absolute;bottom:32px;left:80px;transition:left 0.55s cubic-bezier(.4,0,.2,1);cursor:pointer;user-select:none;z-index:20}
+#nurse{position:absolute;bottom:30px;left:80px;transition:left 0.55s cubic-bezier(.4,0,.2,1);cursor:pointer;user-select:none;z-index:20}
 #ng{display:flex;flex-direction:column;align-items:center}
-#nh{width:22px;height:22px;border-radius:50%;background:#f5c5a3;border:1.5px solid #e0a882;position:relative}
-#nhair{position:absolute;top:0;left:0;width:22px;height:12px;border-radius:50% 50% 0 0;background:#4a3020}
-#ncap{position:absolute;top:-9px;left:0;width:22px;height:10px;background:white;border:1.5px solid #c0d0e0;border-radius:3px 3px 0 0}
-#ncap::before{content:'';position:absolute;width:6px;height:2px;background:#e84040;top:4px;left:8px;border-radius:1px}
-#ncap::after{content:'';position:absolute;width:2px;height:7px;background:#e84040;left:10px;top:1.5px;border-radius:1px}
-#nb{width:26px;height:32px;background:#3a80c0;border:1px solid #2a60a0;border-radius:5px 5px 2px 2px;position:relative;margin-top:1px}
-#ncol{position:absolute;top:0;left:50%;transform:translateX(-50%);width:9px;height:7px;background:white;border-radius:0 0 4px 4px}
-#nla{position:absolute;top:6px;left:-9px;width:10px;height:6px;background:#3a80c0;border:1px solid #2a60a0;border-radius:3px;transform-origin:right center}
-#nra{position:absolute;top:6px;right:-9px;width:10px;height:6px;background:#3a80c0;border:1px solid #2a60a0;border-radius:3px;transform-origin:left center}
-#nheld{position:absolute;top:-5px;right:-18px;font-size:17px;display:none}
-#nlegs{display:flex;gap:4px;margin-top:1px}
-.nl{width:10px;height:15px;background:#2a5090;border-radius:2px}
-#nshoes{display:flex;gap:4px}
-.ns{width:12px;height:6px;background:#222;border-radius:2px 5px 5px 2px}
-#nurse-hint{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:#2a5090;white-space:nowrap;pointer-events:none;font-weight:500}
+#nh{width:21px;height:21px;border-radius:50%;background:#f5c5a3;border:1.5px solid #e0a882;position:relative}
+#nhair{position:absolute;top:0;left:0;width:21px;height:11px;border-radius:50% 50% 0 0;background:#4a3020}
+#ncap{position:absolute;top:-9px;left:0;width:21px;height:10px;background:white;border:1.5px solid #c0d0e0;border-radius:3px 3px 0 0}
+#ncap::before{content:'';position:absolute;width:5px;height:2px;background:#e84040;top:4px;left:8px;border-radius:1px}
+#ncap::after{content:'';position:absolute;width:2px;height:7px;background:#e84040;left:9px;top:1.5px;border-radius:1px}
+#nb{width:24px;height:30px;background:#3a80c0;border:1px solid #2a60a0;border-radius:5px 5px 2px 2px;position:relative;margin-top:1px}
+#ncol{position:absolute;top:0;left:50%;transform:translateX(-50%);width:8px;height:6px;background:white;border-radius:0 0 4px 4px}
+#nla{position:absolute;top:5px;left:-8px;width:9px;height:5px;background:#3a80c0;border:1px solid #2a60a0;border-radius:3px;transform-origin:right center}
+#nra{position:absolute;top:5px;right:-8px;width:9px;height:5px;background:#3a80c0;border:1px solid #2a60a0;border-radius:3px;transform-origin:left center}
+#nheld{position:absolute;top:-6px;right:-26px;display:none;width:24px;height:24px}
+#nlegs{display:flex;gap:3px;margin-top:1px}
+.nl{width:9px;height:14px;background:#2a5090;border-radius:2px}
+#nshoes{display:flex;gap:3px}
+.ns{width:11px;height:5px;background:#222;border-radius:2px 5px 5px 2px}
+#nurse-hint{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;color:#2a5090;white-space:nowrap;pointer-events:none;font-weight:700}
 
-@keyframes wl{0%,100%{transform:rotate(0)}25%{transform:rotate(13deg)}75%{transform:rotate(-13deg)}}
+@keyframes wl{0%,100%{transform:rotate(0deg)}25%{transform:rotate(13deg)}75%{transform:rotate(-13deg)}}
 #nurse.walking .nl{animation:wl 0.3s infinite alternate}
 #nurse.walking #nla{animation:wl 0.3s infinite alternate}
 #nurse.walking #nra{animation:wl 0.3s infinite alternate-reverse}
 
 /* SPEECH */
-#speech{position:absolute;background:white;border:1.5px solid #aacfdf;border-radius:10px 10px 10px 2px;padding:5px 9px;font-size:11px;color:#1a5070;max-width:145px;line-height:1.4;z-index:35;pointer-events:none;opacity:0;transition:opacity 0.25s;top:30px;left:90px}
+#speech{position:absolute;background:white;border:1.5px solid #aacfdf;border-radius:10px 10px 10px 2px;padding:5px 9px;font-size:11px;color:#1a5070;max-width:140px;line-height:1.35;z-index:35;pointer-events:none;opacity:0;transition:opacity 0.25s;top:26px;left:84px}
 #speech.show{opacity:1}
-#speech::after{content:'';position:absolute;bottom:-7px;left:8px;border:4px solid transparent;border-top-color:#aacfdf}
+#speech::after{content:'';position:absolute;bottom:-6px;left:8px;border:3px solid transparent;border-top-color:#aacfdf}
+
+/* ─── DRUG OVERLAY — covers room, sits above everything ─── */
+#drug-overlay{
+  display:none;
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(12,40,70,0.72);
+  z-index:100;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+}
+#drug-overlay.show{display:flex}
+#drug-box{
+  background:white;
+  border-radius:14px;
+  padding:14px;
+  width:100%;
+  box-shadow:0 4px 24px rgba(0,0,0,0.25);
+}
+.dov-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.dov-title{font-size:13px;font-weight:700;color:#0c447c}
+.dov-cancel{font-size:12px;color:#D85A30;cursor:pointer;font-weight:700;padding:2px 6px;border-radius:4px;border:1px solid #f0c0b0;background:#fff8f6}
+.dov-cancel:hover{background:#faece7}
+.dov-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.dov-drug{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 11px;border-radius:10px;cursor:pointer;
+  border:1.5px solid #e0e8f0;background:#f5fafd;
+  transition:all 0.14s;
+}
+.dov-drug:hover{background:#e8f4fb;border-color:#7ab8d0;transform:translateY(-1px)}
+.dov-drug:active{background:#ddeef8;transform:translateY(0)}
+.dov-pill{width:28px;height:12px;border-radius:6px;flex-shrink:0;position:relative;overflow:hidden;border:1.5px solid rgba(0,0,0,0.15)}
+.dov-pill::after{content:'';position:absolute;left:50%;top:0;width:1.5px;height:100%;background:rgba(0,0,0,0.18)}
+.dov-name{font-size:13px;font-weight:700;color:#1a1a1a;line-height:1.25}
+.dov-cls{font-size:10px;color:#666;line-height:1.2;margin-top:1px}
 
 /* STEP BAR */
-#sbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-secondary);padding:7px 12px;display:flex;align-items:center;gap:6px;flex-shrink:0}
-.sd{width:7px;height:7px;border-radius:50%;background:var(--color-border-secondary);flex-shrink:0}
-.sd.done{background:#1D9E75}.sd.active{background:#7F77DD}
-.sl{flex:1;height:1px;background:var(--color-border-tertiary)}
-#slabel{font-size:11px;color:var(--color-text-secondary);margin-left:2px;white-space:nowrap}
+#sbar{background:white;border-bottom:1px solid #e0e0e0;padding:7px 12px;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.sd{width:7px;height:7px;border-radius:50%;background:#ddd;flex-shrink:0}
+.sd.done{background:#1D9E75}
+.sd.active{background:#7F77DD}
+.sl2{flex:1;height:1px;background:#eee}
+#slabel{font-size:10px;color:#888;margin-left:3px;white-space:nowrap}
 
 /* PANEL */
-#panel{background:var(--color-background-secondary);flex:1;min-height:400px}
-#pb{padding:12px 14px;display:flex;flex-direction:column;gap:9px}
+#panel{background:#f0f4f8;flex:1}
+#pb{padding:12px 13px;display:flex;flex-direction:column;gap:9px}
 
-.ic{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:11px;padding:12px 13px}
-.ic-t{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px}
-.ic-b{font-size:13px;color:var(--color-text-primary);line-height:1.55}
+.ic{background:white;border:1px solid #e0e0e0;border-radius:11px;padding:12px 13px}
+.ic-t{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px}
+.ic-b{font-size:13px;color:#1a1a1a;line-height:1.55}
 .vitals{display:flex;gap:5px;margin-top:7px}
-.vit{flex:1;background:var(--color-background-secondary);border-radius:6px;padding:5px 5px;text-align:center;font-size:10px;color:var(--color-text-secondary)}
-.vit b{display:block;font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.vit{flex:1;background:#f5f5f0;border-radius:7px;padding:5px 4px;text-align:center;font-size:10px;color:#666}
+.vit b{display:block;font-size:12px;font-weight:700;color:#1a1a1a}
 .vit.red b{color:#D85A30}
 
-.qc{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:11px;padding:12px 13px}
-.qb{display:inline-block;font-size:10px;font-weight:500;padding:3px 8px;border-radius:20px;margin-bottom:7px}
-.qb-w{background:#EEEDFE;color:#534AB7}.qb-m{background:#E1F5EE;color:#0F6E56}.qb-i{background:#FAEEDA;color:#633806}.qb-a{background:#FAECE7;color:#993C1D}
-.qt{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px}
-.opts{display:flex;flex-direction:column;gap:6px}
-.opt{padding:10px 12px;border-radius:8px;border:0.5px solid var(--color-border-secondary);font-size:12px;color:var(--color-text-primary);cursor:pointer;line-height:1.4;background:var(--color-background-primary);transition:all 0.12s}
+.qc{background:white;border:1px solid #e0e0e0;border-radius:11px;padding:12px 13px}
+.qb{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;margin-bottom:7px}
+.qb-w{background:#EEEDFE;color:#534AB7}
+.qb-m{background:#E1F5EE;color:#0F6E56}
+.qb-i{background:#FAEEDA;color:#633806}
+.qb-a{background:#FAECE7;color:#993C1D}
+.qt{font-size:13px;font-weight:700;color:#1a1a1a;line-height:1.45;margin-bottom:10px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{padding:10px 13px;border-radius:9px;border:1px solid #e0e0e0;font-size:12px;color:#1a1a1a;cursor:pointer;line-height:1.4;background:white;transition:all 0.12s}
+.opt:hover{background:#f5f5f5;border-color:#ccc}
 .opt.cor{background:#E1F5EE;border-color:#1D9E75;color:#085041}
 .opt.wrg{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
 .opt.rev{background:#E1F5EE;border-color:#1D9E75;color:#085041}
-.fb{border-radius:8px;padding:9px 11px;font-size:12px;line-height:1.5;margin-top:7px}
-.fb.ok{background:#E1F5EE;color:#085041}.fb.bad{background:#FAECE7;color:#4A1B0C}
-.abtn{width:100%;padding:12px;border-radius:8px;border:none;font-size:14px;font-weight:500;cursor:pointer;margin-top:4px;color:white}
-.abtn-p{background:#7F77DD}.abtn-g{background:#1D9E75}.abtn-r{background:#D85A30}
-.abtn-o{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);color:var(--color-text-primary)}
+.fb{border-radius:9px;padding:10px 12px;font-size:12px;line-height:1.55;margin-top:7px}
+.fb.ok{background:#E1F5EE;color:#085041}
+.fb.bad{background:#FAECE7;color:#4A1B0C}
+.abtn{width:100%;padding:12px;border-radius:9px;border:none;font-size:14px;font-weight:700;cursor:pointer;margin-top:5px;color:white;transition:opacity 0.12s}
+.abtn:hover{opacity:0.9}
+.abtn-p{background:#7F77DD}
+.abtn-g{background:#1D9E75}
 
-/* outcome */
+/* OUTCOME */
 .ow{padding:14px;text-align:center}
-.ow-i{font-size:50px;margin-bottom:7px}
-.ow-t{font-size:19px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
-.ow-d{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:12px}
-.ow-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-bottom:11px}
-.ows{background:var(--color-background-secondary);border-radius:8px;padding:9px;text-align:center}
-.owsv{font-size:19px;font-weight:500;color:var(--color-text-primary)}
-.owsl{font-size:11px;color:var(--color-text-secondary)}
-.pc{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:10px;padding:10px 12px;text-align:left;margin-bottom:7px}
-.pt{font-size:10px;font-weight:500;color:#BA7517;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px}
-.pb2{font-size:12px;color:var(--color-text-primary);line-height:1.55}
+.ow-i{font-size:52px;margin-bottom:7px}
+.ow-t{font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.ow-d{font-size:12px;color:#555;line-height:1.6;margin-bottom:13px}
+.ow-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-bottom:12px}
+.ows{background:#f0f4f8;border-radius:9px;padding:10px;text-align:center}
+.owsv{font-size:20px;font-weight:700;color:#1a1a1a}
+.owsl{font-size:10px;color:#888;margin-top:1px}
+.pc{background:white;border:1px solid #e0e0e0;border-radius:11px;padding:11px 13px;text-align:left;margin-bottom:8px}
+.pt2{font-size:10px;font-weight:700;color:#BA7517;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px}
+.pb3{font-size:12px;color:#1a1a1a;line-height:1.55}
 
 @keyframes pop{0%{transform:scale(0.85);opacity:0}65%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
-.pop{animation:pop 0.24s ease forwards}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.shk{animation:shake 0.26s ease}
-@keyframes pr{0%{box-shadow:0 0 0 0 rgba(127,119,221,0.55)}100%{box-shadow:0 0 0 9px rgba(127,119,221,0)}}
+.pop{animation:pop 0.22s ease forwards}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.shk{animation:shake 0.28s ease}
+@keyframes pr{0%{box-shadow:0 0 0 0 rgba(127,119,221,0.6)}100%{box-shadow:0 0 0 10px rgba(127,119,221,0)}}
 .pring{animation:pr 1.1s infinite}
+@keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+#drug-box{animation:fadeIn 0.18s ease}
 </style>
-
-<h2 class="sr-only">Hospital nursing simulation — all drugs from modules 2 through 11, animated nurse you control by tapping</h2>
+</head>
+<body>
 <div id="root">
 
 <!-- HOME -->
 <div id="home">
   <div class="hh">
-    <div class="hh-ico">🏥</div>
-    <div class="hh-t">Ward 4 — Night Shift</div>
-    <div class="hh-s">Nurse Alex | Modules 2–11</div>
-    <div class="hh-tip"><b>How to play:</b> Tap <b>Nurse Alex</b> → tap the <b>cabinet</b> (drug options appear above it!) → tap the <b>correct drug</b> → tap <b>Nurse Alex</b> again → tap the <b>patient</b> to administer!</div>
+    <div class="hh-ico">&#127973;</div>
+    <div class="hh-t">Ward 4 &mdash; Night Shift</div>
+    <div class="hh-s">Nurse Alex &nbsp;|&nbsp; All Modules 2&ndash;11 &nbsp;|&nbsp; 20 Scenarios</div>
+    <div class="hh-tip"><b>How to play:</b> Tap <b>Nurse Alex</b> &rarr; tap the <b>cabinet</b> &rarr; all 4 drug options pop up over the room &rarr; tap the correct drug &rarr; tap <b>Nurse Alex</b> &rarr; tap the <b>patient</b> to administer!</div>
   </div>
   <div id="sc-list"></div>
 </div>
 
 <!-- GAME -->
 <div id="game">
-  <div id="room">
-    <div class="wt"></div>
-    <div id="win"></div>
-    <div id="rf"></div><div id="rfl"></div>
-    <div id="home-btn" onclick="goHome()">⬅ Home</div>
 
-    <!-- CABINET -->
-    <div id="cabinet" onclick="tapCabinet()">
-      <div class="cb">
-        <div class="cd" id="cd"><div class="cd-lbl">MEDS</div><div class="cd-cross"></div></div>
-        <div class="ch"></div>
+  <!-- Room + drug overlay wrapped together -->
+  <div id="room-wrap">
+    <div id="room">
+      <div class="wt"></div>
+      <div id="win"></div>
+      <div id="rf"></div>
+      <div id="rfl"></div>
+      <div id="home-btn" onclick="goHome()">&#8592; Home</div>
+
+      <div id="cabinet" onclick="tapCabinet()">
+        <div class="cb-body">
+          <div class="cb-door" id="cd">
+            <div class="cb-lbl">MEDS</div>
+            <div class="cb-cross"></div>
+          </div>
+          <div class="cb-handle"></div>
+        </div>
+        <div id="cab-hint">tap nurse first</div>
       </div>
-      <div id="cab-hint">tap nurse first</div>
-    </div>
 
-    <!-- DRUG POPUP -->
-    <div id="drug-popup">
-      <div class="dp-title">Choose the correct drug</div>
-      <div id="dp-inner"></div>
-    </div>
-
-    <!-- BED -->
-    <div id="bed" onclick="tapBed()">
-      <div class="bb"></div>
-      <div class="bf">
-        <div class="bm"></div>
-        <div class="bp"></div>
-        <div id="pt-hair"></div>
-        <div id="pt-head"></div>
-        <div class="bbl"></div>
+      <div id="bed" onclick="tapBed()">
+        <div class="bed-board"></div>
+        <div class="bed-frame">
+          <div class="bed-mattress"></div>
+          <div class="bed-pillow"></div>
+          <div id="pt-hair"></div>
+          <div id="pt-head"></div>
+          <div class="bed-blanket"></div>
+        </div>
+        <div class="bed-legs"><div class="bed-leg"></div><div class="bed-leg"></div></div>
+        <div id="bed-hint">get drug first</div>
       </div>
-      <div class="bl-wrap"><div class="bl"></div><div class="bl"></div></div>
-      <div id="bed-hint">get drug first</div>
+
+      <div id="ivs"></div>
+      <div id="ivb"></div>
+      <div id="ivt"></div>
+
+      <div id="nurse" onclick="tapNurse()">
+        <div id="nurse-hint">tap me!</div>
+        <div id="ng">
+          <div id="nh"><div id="nhair"></div><div id="ncap"></div></div>
+          <div id="nb"><div id="ncol"></div><div id="nla"></div><div id="nra"></div><div id="nheld"></div></div>
+          <div id="nlegs"><div class="nl"></div><div class="nl"></div></div>
+          <div id="nshoes"><div class="ns"></div><div class="ns"></div></div>
+        </div>
+      </div>
+
+      <div id="speech"></div>
     </div>
 
-    <!-- IV -->
-    <div id="ivs"></div><div id="ivb"></div><div id="ivt"></div>
-
-    <!-- NURSE -->
-    <div id="nurse" onclick="tapNurse()">
-      <div id="nurse-hint">tap me!</div>
-      <div id="ng">
-        <div id="nh"><div id="nhair"></div><div id="ncap"></div></div>
-        <div id="nb"><div id="ncol"></div><div id="nla"></div><div id="nra"></div><div id="nheld"></div></div>
-        <div id="nlegs"><div class="nl"></div><div class="nl"></div></div>
-        <div id="nshoes"><div class="ns"></div><div class="ns"></div></div>
+    <!-- Drug overlay — sits over room, inside room-wrap -->
+    <div id="drug-overlay">
+      <div id="drug-box">
+        <div class="dov-header">
+          <div class="dov-title">&#128138; Choose the correct drug</div>
+          <div class="dov-cancel" onclick="closeOverlay()">&#10005; Cancel</div>
+        </div>
+        <div class="dov-grid" id="dov-grid"></div>
       </div>
     </div>
-
-    <div id="speech"></div>
   </div>
 
-  <!-- STEP BAR -->
+  <!-- Step bar -->
   <div id="sbar">
-    <div class="sd active" id="sd0"></div><div class="sl"></div>
-    <div class="sd" id="sd1"></div><div class="sl"></div>
-    <div class="sd" id="sd2"></div><div class="sl"></div>
-    <div class="sd" id="sd3"></div><div class="sl"></div>
+    <div class="sd active" id="sd0"></div><div class="sl2"></div>
+    <div class="sd" id="sd1"></div><div class="sl2"></div>
+    <div class="sd" id="sd2"></div><div class="sl2"></div>
+    <div class="sd" id="sd3"></div><div class="sl2"></div>
     <div class="sd" id="sd4"></div>
     <div id="slabel">Tap Nurse Alex</div>
   </div>
@@ -246,534 +300,273 @@
 
 </div>
 <script>
-const DRUG_COLORS=["#7F77DD","#1D9E75","#D85A30","#EF9F27","#378ADD","#D4537E","#639922","#BA7517","#E24B4A","#0F6E56"];
-function dc(i){return DRUG_COLORS[i%DRUG_COLORS.length]}
+var DC=["#7F77DD","#1D9E75","#D85A30","#EF9F27","#378ADD","#D4537E","#639922","#BA7517"];
+function dc(i){return DC[i%DC.length];}
+var MOD_NAMES={2:"Module 2 &mdash; Core Pharmacology",3:"Module 3 &mdash; Immune &amp; Infection",4:"Module 4 &mdash; Hematology &amp; Cancer",5:"Module 5 &mdash; Nervous System &amp; Pain",6:"Module 6 &mdash; Cardiovascular",7:"Module 7 &mdash; Pulmonary",8:"Module 8 &mdash; Renal &amp; Urinary",9:"Module 9 &mdash; Endocrine &amp; Diabetes",10:"Module 10 &mdash; GI &amp; Hepatobiliary",11:"Module 11 &mdash; Musculoskeletal"};
+var ALL={"Acetaminophen":"Non-opioid Analgesic","Aspirin":"Salicylate / NSAID","Amoxicillin":"Penicillin","Gentamicin":"Aminoglycoside","Ciprofloxacin":"Fluoroquinolone","Doxycycline":"Tetracycline","Heparin":"Anticoagulant","Warfarin":"Anticoagulant","Alteplase":"Thrombolytic","Clopidogrel":"Antiplatelet","Epoetin Alfa":"Erythropoiesis Agent","Filgrastim":"Colony Stimulating Factor","Cyanocobalamin":"Vitamin B12","Donepezil":"Cholinesterase Inhibitor","Levodopa":"Dopaminergic","Phenytoin":"Hydantoin","Valproic Acid":"Valproate","Morphine":"Opioid Analgesic","Diazepam":"Benzodiazepine","Naloxone":"Opioid Antagonist","Protamine Sulfate":"Heparin Antidote","Digoxin Immune Fab":"Digoxin Antidote","Flumazenil":"Benzo Antidote","Lisinopril":"ACE Inhibitor","Losartan":"ARB","Digoxin":"Cardiac Glycoside","Metoprolol":"Beta-Blocker","Diltiazem":"CCB Non-DHP","Amlodipine":"CCB Dihydropyridine","Nitroglycerin":"Nitrate","Atorvastatin":"Statin","Adenosine":"Antidysrhythmic","Amiodarone":"K+ Channel Blocker","Albuterol":"SABA","Ipratropium":"Anticholinergic Inhaled","Guaifenesin":"Expectorant","Furosemide":"Loop Diuretic","Spironolactone":"K+ Sparing Diuretic","Mannitol":"Osmotic Diuretic","Finasteride":"5-Alpha Reductase Inh.","Tamsulosin":"Alpha-1 Blocker","Metformin":"Biguanide","Levothyroxine":"Thyroid Hormone","Methimazole":"Antithyroid","Regular Insulin":"Short-Acting Insulin","Glucagon":"Glucose-Elevating Agent","Lactulose":"Osmotic Laxative","Omeprazole":"PPI","Sucralfate":"GI Protectant","Metoclopramide":"Prokinetic","Colchicine":"Antigout","Allopurinol":"Uric Acid Inhibitor","Alendronate":"Bisphosphonate","Calcitonin":"Antihypercalcemic"};
 
-const ALL_DRUGS=[
- {name:"Acetaminophen",cls:"Non-opioid Analgesic",mod:2},
- {name:"Aspirin",cls:"Salicylate/NSAID",mod:3},
- {name:"Etanercept",cls:"TNF Blocker/DMARD",mod:3},
- {name:"Methotrexate",cls:"Antimetabolite/DMARD",mod:3},
- {name:"Amoxicillin",cls:"Penicillin",mod:3},
- {name:"Cefaclor",cls:"Cephalosporin 2nd Gen",mod:3},
- {name:"Ertapenem",cls:"Carbapenem",mod:3},
- {name:"Gentamicin",cls:"Aminoglycoside",mod:3},
- {name:"Ciprofloxacin",cls:"Fluoroquinolone",mod:3},
- {name:"Doxycycline",cls:"Tetracycline",mod:3},
- {name:"Cotrimoxazole",cls:"Sulfonamide",mod:3},
- {name:"Heparin",cls:"Anticoagulant",mod:4},
- {name:"Warfarin",cls:"Anticoagulant",mod:4},
- {name:"Alteplase",cls:"Thrombolytic",mod:4},
- {name:"Clopidogrel",cls:"Antiplatelet",mod:4},
- {name:"Epoetin Alfa",cls:"ESA",mod:4},
- {name:"Filgrastim",cls:"Colony Stimulating Factor",mod:4},
- {name:"Cyanocobalamin",cls:"Vitamin B12",mod:4},
- {name:"Donepezil",cls:"Cholinesterase Inhibitor",mod:5},
- {name:"Levodopa-Carbidopa",cls:"Dopaminergic",mod:5},
- {name:"Benztropine",cls:"Anticholinergic",mod:5},
- {name:"Phenytoin",cls:"Hydantoin",mod:5},
- {name:"Valproic Acid",cls:"Valproate",mod:5},
- {name:"Ethosuximide",cls:"Succinimide",mod:5},
- {name:"Morphine",cls:"Opioid Analgesic",mod:5},
- {name:"Diazepam",cls:"Benzodiazepine",mod:5},
- {name:"Apixaban",cls:"Factor Xa Inhibitor",mod:5},
- {name:"Lisinopril",cls:"ACE Inhibitor",mod:6},
- {name:"Losartan",cls:"ARB",mod:6},
- {name:"Digoxin",cls:"Cardiac Glycoside",mod:6},
- {name:"Metoprolol",cls:"Beta-Blocker",mod:6},
- {name:"Diltiazem",cls:"CCB Non-DHP",mod:6},
- {name:"Amlodipine",cls:"CCB Dihydropyridine",mod:6},
- {name:"Nitroglycerin",cls:"Nitrate",mod:6},
- {name:"Atorvastatin",cls:"Statin",mod:6},
- {name:"Adenosine",cls:"Antidysrhythmic",mod:6},
- {name:"Amiodarone",cls:"K+ Channel Blocker",mod:6},
- {name:"Albuterol",cls:"SABA",mod:7},
- {name:"Ipratropium",cls:"Anticholinergic Inhaled",mod:7},
- {name:"Guaifenesin",cls:"Expectorant",mod:7},
- {name:"Furosemide",cls:"Loop Diuretic",mod:8},
- {name:"Spironolactone",cls:"K+ Sparing Diuretic",mod:8},
- {name:"Mannitol",cls:"Osmotic Diuretic",mod:8},
- {name:"Finasteride",cls:"5-Alpha Reductase Inhibitor",mod:8},
- {name:"Tamsulosin",cls:"Alpha-1 Blocker",mod:8},
- {name:"Metformin",cls:"Biguanide",mod:9},
- {name:"Levothyroxine",cls:"Thyroid Hormone",mod:9},
- {name:"Methimazole",cls:"Antithyroid",mod:9},
- {name:"Regular Insulin",cls:"Short-Acting Insulin",mod:9},
- {name:"Glucagon",cls:"Glucose-Elevating Agent",mod:9},
- {name:"Lactulose",cls:"Osmotic Laxative",mod:10},
- {name:"Omeprazole",cls:"PPI",mod:10},
- {name:"Sucralfate",cls:"GI Protectant",mod:10},
- {name:"Metoclopramide",cls:"Prokinetic",mod:10},
- {name:"Colchicine",cls:"Antigout",mod:11},
- {name:"Allopurinol",cls:"Uric Acid Inhibitor",mod:11},
- {name:"Alendronate",cls:"Bisphosphonate",mod:11},
- {name:"Calcitonin",cls:"Antihypercalcemic",mod:11}
+var SC=[
+{name:"Mr. Chen, 67",icon:"&#128116;",hair:"#6b6b6b",skin:"#d4a574",diff:"easy",mod:3,title:"STEMI &mdash; crushing chest pain",desc:"Mr. Chen has crushing chest pain, diaphoresis, jaw pain x45 min. ECG: ST elevation V1-V4. Troponin rising. Needs immediate antiplatelet therapy.",vitals:[{l:"BP",v:"148/92"},{l:"HR",v:"98 bpm"},{l:"SpO2",v:"97%"}],bubble:"My chest feels so tight!",correct:"Aspirin",decoys:["Nitroglycerin","Metoprolol","Heparin"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Aspirin given immediately for suspected STEMI?",opts:["To lower blood pressure rapidly","To irreversibly inhibit platelet aggregation, preventing further coronary thrombus extension","To dissolve the existing blood clot","To slow the heart rate"],ans:1,fb:"CORRECT: Aspirin irreversibly acetylates COX-1, blocking thromboxane A2 - permanently disabling platelet aggregation for the platelet's 7-10 day lifespan. Most critical first drug in STEMI."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Aspirin's MOA relevant to MI:",opts:["Blocks Beta-1 receptors","Inhibits HMG-CoA reductase","Irreversibly inhibits COX-1 and COX-2 - blocking prostaglandins and platelet aggregation","Blocks Vitamin K clotting factors"],ans:2,fb:"CORRECT: Aspirin irreversibly acetylates cyclooxygenase. Since platelets have no nucleus for new COX synthesis, platelet function is permanently disabled - irreversible antiplatelet."},
+{badge:"qb-i",bl:"Contraindications",q:"Who should NOT receive Aspirin?",opts:["55-year-old with hypertension","A child with viral illness - Reye's Syndrome risk","70-year-old post-MI","Adult with stable angina"],ans:1,fb:"CORRECT: Aspirin is CONTRAINDICATED in children with viral illness - Reye's Syndrome causes fatal hepatic and cerebral dysfunction. Stop 1 week pre-surgery. Tinnitus = toxicity sign."}],
+pearl:"325mg chewed for fastest absorption. Tinnitus = toxicity. Stop 1 week pre-surgery.",outcome:"Aspirin given! Cath lab activated for primary PCI. Mr. Chen stabilizing."},
+
+{name:"Ms. Torres, 34",icon:"&#128105;",hair:"#3a1a0a",skin:"#c07040",diff:"medium",mod:3,title:"Pneumonia &mdash; fever and productive cough",desc:"Ms. Torres: 4 days productive cough, fever 38.9C, right lower lobe infiltrate on CXR, WBC 14,000. Gram stain: Gram-positive cocci. Community-acquired pneumonia. No known drug allergies.",vitals:[{l:"Temp",v:"38.9C",red:true},{l:"HR",v:"102 bpm",red:true},{l:"WBC",v:"14,000",red:true}],bubble:"I can't stop coughing!",correct:"Amoxicillin",decoys:["Gentamicin","Ciprofloxacin","Doxycycline"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Amoxicillin appropriate for CAP with Gram-positive cocci?",opts:["It covers only Gram-negative bacteria","Penicillin class - inhibits cell wall synthesis; first-line for S. pneumoniae CAP in non-allergic patients","It treats viral pneumonia","Only used for UTIs"],ans:1,fb:"CORRECT: Amoxicillin (penicillin class) binds PBPs, prevents peptidoglycan cross-linking, cell wall weakens, bacteriolysis. First-line for S. pneumoniae CAP in patients without penicillin allergy."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Amoxicillin's mechanism:",opts:["Inhibits protein synthesis at 30S ribosome","Inhibits DNA gyrase","Inhibits bacterial cell wall synthesis by binding penicillin-binding proteins (PBPs) - preventing peptidoglycan cross-linking","Blocks folic acid synthesis"],ans:2,fb:"CORRECT: Penicillins bind PBPs, block transpeptidation of peptidoglycan, weakened cell wall, bacteriolysis. Beta-lactam class. Suffix: -cillin."},
+{badge:"qb-i",bl:"Contraindications",q:"Most important contraindication to Amoxicillin:",opts:["History of diabetes","Penicillin (PCN) allergy - risk of anaphylaxis; 10% cross-sensitivity with cephalosporins","History of hypertension","Renal failure"],ans:1,fb:"CORRECT: PCN allergy is the primary contraindication - can cause life-threatening anaphylaxis. If PCN-allergic, use azithromycin or doxycycline for CAP. Always ask about allergies!"}],
+pearl:"Amoxicillin = -cillin suffix. Monitor for rash, diarrhea, anaphylaxis. 10% cross-sensitivity with cephalosporins.",outcome:"Amoxicillin started! Temperature trending down. Repeat CXR in 48 hours."},
+
+{name:"Mr. Ellis, 77",icon:"&#128116;",hair:"#d0d0d0",skin:"#d4a574",diff:"medium",mod:4,title:"Neutropenia &mdash; post-chemo low WBC",desc:"Mr. Ellis completed chemo cycle 3 for colon cancer 8 days ago. CBC: ANC 0.3 (severe neutropenia). Temperature 38.4C. High risk for life-threatening infection. Oncology orders G-CSF therapy.",vitals:[{l:"ANC",v:"0.3!!",red:true},{l:"Temp",v:"38.4C",red:true},{l:"WBC",v:"1.2x10^3",red:true}],bubble:"I feel so weak.",correct:"Filgrastim",decoys:["Epoetin Alfa","Cyanocobalamin","Heparin"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Filgrastim given after chemotherapy?",opts:["To replace red blood cells","To stimulate bone marrow neutrophil production - reversing chemo-induced neutropenia and reducing infection risk","To provide B12 depleted by chemo","To prevent blood clotting"],ans:1,fb:"CORRECT: Filgrastim (G-CSF) binds G-CSF receptors on hematopoietic progenitors, stimulates neutrophil proliferation and differentiation, raises ANC within 24-48 hours."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Filgrastim's MOA:",opts:["Stimulates erythropoietin receptors for RBCs","Binds G-CSF receptors - stimulates neutrophil precursor proliferation and differentiation - releases mature neutrophils into circulation","Provides iron for hemoglobin","Stimulates platelet production"],ans:1,fb:"CORRECT: Filgrastim = G-CSF (granulocyte colony-stimulating factor). Suffix: -grastim. Distinct from Epoetin Alfa which only stimulates RBC production."},
+{badge:"qb-i",bl:"Side effects",q:"Expected side effect to warn the patient about:",opts:["Yellow vision","Bone pain - from rapid bone marrow expansion; treat with Acetaminophen; contraindicated in bone marrow cancers","Dry cough","Severe diarrhea"],ans:1,fb:"CORRECT: Bone pain is expected and very common - caused by rapid marrow expansion. Treat with Acetaminophen (not NSAIDs - bleeding risk). Contraindicated in myeloid malignancies!"}],
+pearl:"Filgrastim (-grastim) = G-CSF. Stimulates WBCs (neutrophils). Expected side effect: BONE PAIN (give Tylenol). Contraindicated in bone marrow cancers.",outcome:"Filgrastim given! ANC rising within 24 hours. Bone pain anticipated - Acetaminophen ordered."},
+
+{name:"Mrs. Wong, 66",icon:"&#128117;",hair:"#1a1a1a",skin:"#d4a574",diff:"medium",mod:4,title:"Acute ischemic stroke &mdash; 2 hrs ago",desc:"Sudden right-sided weakness and aphasia 2 hours ago. CT: no hemorrhage. NIHSS 14. BP 168/92. Within treatment window. MD orders thrombolytic therapy.",vitals:[{l:"BP",v:"168/92"},{l:"NIHSS",v:"14"},{l:"Onset",v:"2 hrs ago"}],bubble:"I can't find words...",correct:"Alteplase",decoys:["Aspirin","Heparin","Warfarin"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Alteplase used for acute ischemic stroke?",opts:["To prevent future strokes long-term","To dissolve the existing clot by converting plasminogen to plasmin - must be given within 3-4.5 hrs of onset","To lower blood pressure during the stroke","To reduce brain swelling"],ans:1,fb:"CORRECT: Alteplase (tPA) converts plasminogen to plasmin, breaks down fibrin, thrombolysis. CRITICAL: within 3-4.5 hrs of onset AND CT must confirm NO hemorrhage."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Alteplase's MOA:",opts:["Inhibits thrombin directly","Binds fibrin in thrombus - converts plasminogen to plasmin - breaks down existing fibrin clot","Blocks Vitamin K clotting factors","Inhibits ADP receptor on platelets"],ans:1,fb:"CORRECT: Alteplase = tPA. Preferentially binds fibrin-bound plasminogen, converts to plasmin, clot lysis. Suffix: -plase. Used for stroke, PE, STEMI."},
+{badge:"qb-i",bl:"Contraindications",q:"Which finding CONTRAINDICATES Alteplase?",opts:["BP of 168/92","Hemorrhage on CT, recent surgery less than 14 days, or active bleeding","History of hypertension","Age over 65"],ans:1,fb:"CORRECT: Hemorrhage on CT = absolute contraindication (catastrophic bleeding!). Also: recent surgery <14 days, active bleeding, prior ICH, BP greater than 185/110. Verify exact onset time!"}],
+pearl:"Alteplase (-plase): clot buster. Window: 3-4.5 hours. CT FIRST - hemorrhage = absolute contraindication. BP must be below 185/110.",outcome:"Alteplase infusion started! Early improvement in right arm movement. CT repeat in 24 hours."},
+
+{name:"Mr. Okafor, 78",icon:"&#128116;",hair:"#2C2C2A",skin:"#8B6347",diff:"medium",mod:5,title:"Status epilepticus &mdash; seizing 8 min!",desc:"Mr. Okafor seizing continuously for 8 minutes. Unresponsive between jerks. IV access in place. RR 8, SpO2 91%. MD orders IV benzodiazepine stat.",vitals:[{l:"RR",v:"8 (low!)",red:true},{l:"SpO2",v:"91%",red:true},{l:"HR",v:"118 bpm"}],bubble:"",correct:"Diazepam",decoys:["Phenytoin","Valproic Acid","Morphine"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Diazepam first-line for status epilepticus?",opts:["Raises blood pressure","Rapidly enhances GABA - the brain's main inhibitory neurotransmitter - terminating seizure activity within minutes","Permanently cures epilepsy","Blocks sodium channels"],ans:1,fb:"CORRECT: Benzodiazepines enhance GABA-A receptor activity, increase Cl- influx, hyperpolarization, stops neuronal firing. First-line due to rapid IV onset (1-3 min). Time is brain tissue!"},
+{badge:"qb-m",bl:"Mechanism of action",q:"Diazepam's MOA:",opts:["Blocks Na+ channels","Binds GABA-A receptors - increases FREQUENCY of Cl- channel opening, enhancing inhibitory neurotransmission","Blocks ADP receptors on platelets","Antagonizes dopamine D2 receptors"],ans:1,fb:"CORRECT: Diazepam binds benzo site on GABA-A, increases FREQUENCY of Cl- opening (barbiturates increase DURATION - key distinction). Hyperpolarizes neurons, stops seizure activity."},
+{badge:"qb-i",bl:"Critical risk",q:"With RR 8 and SpO2 91%, most critical concern with Diazepam:",opts:["Hypertension","Respiratory depression - benzodiazepines suppress CNS and can cause apnea, especially with already-compromised breathing","Hyperglycemia","Tinnitus"],ans:1,fb:"CORRECT: Dose-dependent respiratory depression. With SpO2 91% and RR 8, have airway equipment and flumazenil (antidote) ready immediately. Monitor breathing continuously!"}],
+pearl:"Antidote for benzo OD: Flumazenil. Increases FREQUENCY of Cl- channel opening. High addiction risk - Schedule IV. Suffix: -epam.",outcome:"Seizure terminated in 2 min! Postictal monitoring in progress. Neurology consulted."},
+
+{name:"Mr. Walsh, 55",icon:"&#128104;",hair:"#b8742a",skin:"#d4a574",diff:"hard",mod:5,title:"&#9888; Opioid OD &mdash; not breathing!",desc:"Post-op patient found unresponsive. Morphine 8mg IV given 2 hrs ago. RR 4/min. Pinpoint pupils. SpO2 82%. Classic opioid-induced respiratory depression - act NOW!",vitals:[{l:"RR",v:"4/min!!",red:true},{l:"SpO2",v:"82%!!",red:true},{l:"Pupils",v:"Pinpoint",red:true}],bubble:"",correct:"Naloxone",decoys:["Morphine","Diazepam","Acetaminophen"],
+qs:[{badge:"qb-a",bl:"Antidote!",q:"Antidote for opioid-induced respiratory depression?",opts:["Flumazenil - benzo reversal","Naloxone (Narcan) - competitive mu-opioid receptor antagonist that displaces opioids","Protamine Sulfate - heparin reversal","Acetylcysteine - acetaminophen antidote"],ans:1,fb:"CORRECT: Naloxone has higher receptor affinity than opioids, displaces Morphine from mu-receptors, restores respiratory drive in 1-2 min IV. Pure antagonist - no agonist effects."},
+{badge:"qb-m",bl:"Mechanism of action",q:"How does Naloxone reverse Morphine?",opts:["Metabolizes Morphine in the liver","Competitively displaces Morphine from mu-opioid receptors - restoring CNS and respiratory function","Increases respiratory drive via beta-2 stimulation","Stimulates dopamine receptors"],ans:1,fb:"CORRECT: Naloxone is a pure competitive opioid antagonist. Outcompetes opioids for mu, kappa, and delta receptors, reverses sedation and respiratory depression within minutes."},
+{badge:"qb-i",bl:"Critical safety",q:"After Naloxone, most important risk to monitor:",opts:["Hypertension","Re-narcotization - Naloxone half-life (30-90 min) is SHORTER than Morphine (3-4 hrs), so respiratory depression can return","Hyperglycemia","Anaphylaxis"],ans:1,fb:"CORRECT: Naloxone wears off before Morphine! Monitor continuously. Consider Naloxone infusion for long-acting opioids. Never leave this patient unattended!"}],
+pearl:"3 P's of opioid OD: Pinpoint pupils, Pale, Poor respirations. Naloxone half-life 30-90 min vs Morphine 3-4 hrs - re-sedation is real!",outcome:"Naloxone given! RR improved to 14/min within 90 seconds. SpO2 rising. Continuous monitoring in place."},
+
+{name:"Mrs. Park, 61",icon:"&#128105;",hair:"#1a1a1a",skin:"#c4845a",diff:"hard",mod:6,title:"&#9888; Digoxin toxicity &mdash; double dose!",desc:"New nurse gave Digoxin 0.5mg instead of 0.25mg. Mrs. Park reports yellow halos, nausea. HR 42 bpm. K+ 5.8. Digoxin toxicity - find the ANTIDOTE!",vitals:[{l:"HR",v:"42!!",red:true},{l:"K+",v:"5.8!!",red:true},{l:"BP",v:"90/58",red:true}],bubble:"Everything looks yellow!",correct:"Digoxin Immune Fab",decoys:["Amiodarone","Adenosine","Metoprolol"],
+qs:[{badge:"qb-a",bl:"Antidote!",q:"Specific antidote for Digoxin toxicity?",opts:["Naloxone","Protamine Sulfate","Digoxin Immune Fab - antibody fragments binding and neutralizing free Digoxin","Vitamin K"],ans:2,fb:"CORRECT: Digoxin Immune Fab (DigiFab): antibody fragments with high Digoxin affinity, bind free Digoxin, complex excreted by kidneys, rapid toxicity reversal."},
+{badge:"qb-w",bl:"Toxicity signs",q:"Classic signs of Digoxin toxicity:",opts:["Hypertension and tachycardia","Yellow/green halos + bradycardia + nausea/vomiting + hyperkalemia","Dry cough + angioedema","Muscle pain + dark urine"],ans:1,fb:"CORRECT: Classic triad: (1) Visual - yellow/green halos, (2) Cardiac - bradycardia/dysrhythmias, (3) GI - nausea/vomiting. Hyperkalemia worsens toxicity!"},
+{badge:"qb-i",bl:"Prevention",q:"Assessment REQUIRED before every Digoxin dose:",opts:["Blood pressure only","Apical pulse 1 full minute - HOLD if HR below 60; monitor serum Digoxin (0.5-2 ng/mL) and potassium","Urine output only","Temperature"],ans:1,fb:"CORRECT: Apical pulse 1 full minute - hold if HR below 60, notify MD. Therapeutic: 0.5-2.0 ng/mL. Hypokalemia increases toxicity risk dramatically. This error was preventable!"}],
+pearl:"Yellow halos = STOP Digoxin. Antidote: Digoxin Immune Fab. Therapeutic: 0.5-2.0 ng/mL. Always check apical pulse!",outcome:"Digoxin Immune Fab given! Digoxin neutralized. HR improving. Medication error documented."},
+
+{name:"Mrs. Thompson, 70",icon:"&#128117;",hair:"#c8c8c8",skin:"#d4a574",diff:"medium",mod:6,title:"Acute angina &mdash; chest tightness",desc:"Mrs. Thompson (known CAD) has chest tightness started 10 min ago while walking. BP 160/95, HR 88. No ST changes on ECG. She has had this before.",vitals:[{l:"BP",v:"160/95",red:true},{l:"HR",v:"88 bpm"},{l:"ECG",v:"No STE"}],bubble:"The pressure in my chest!",correct:"Nitroglycerin",decoys:["Aspirin","Metoprolol","Amlodipine"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Nitroglycerin first treatment for acute angina?",opts:["To permanently widen coronary arteries","Rapidly dilates coronary arteries and reduces preload/afterload - relieving ischemic chest pain within 1-3 minutes","To thin the blood","To slow heart rate"],ans:1,fb:"CORRECT: NTG produces nitric oxide (NO), increases cGMP, smooth muscle relaxation, venodilation (reduces preload) and coronary vasodilation. Relief within 1-3 minutes sublingual."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Nitroglycerin's MOA:",opts:["Beta-1 blockade","Acts as NO donor - relaxes smooth muscle - vasodilation (venous > arterial), reducing preload and improving coronary perfusion","Blocks calcium entry","Inhibits ACE"],ans:1,fb:"CORRECT: NTG to NO to cGMP to smooth muscle relaxation. Primarily venodilation reduces preload. Coronary vasodilation improves ischemic myocardium blood supply. Headache is expected!"},
+{badge:"qb-i",bl:"Contraindications",q:"Nitroglycerin is ABSOLUTELY contraindicated with:",opts:["Beta-blockers","Sildenafil (Viagra) / PDE5 inhibitors - combined vasodilation causes severe, potentially fatal hypotension","ACE inhibitors","Statins"],ans:1,fb:"CORRECT: NTG + PDE5 inhibitors (Viagra, Cialis) = potentially FATAL hypotension. ALWAYS ask about ED medications before giving NTG!"}],
+pearl:"NTG + Viagra = dangerous hypotension - ALWAYS ask! Headache expected. Store in dark glass. SL q5min x3 - call 911 if no relief.",outcome:"Nitroglycerin 0.4mg SL given! Chest pain resolved in 3 min. BP now 142/88."},
+
+{name:"Mr. Garcia, 62",icon:"&#128104;",hair:"#3a2010",skin:"#c07040",diff:"easy",mod:6,title:"HTN &mdash; dry cough on ACE inhibitor",desc:"Mr. Garcia has been on Lisinopril for 6 weeks. He now has a persistent dry, nonproductive cough. No infection found. BP well-controlled at 128/82. Doctor wants to switch drug class.",vitals:[{l:"BP",v:"128/82"},{l:"HR",v:"72 bpm"},{l:"Cough",v:"Chronic"}],bubble:"This cough drives me crazy!",correct:"Losartan",decoys:["Lisinopril","Amlodipine","Metoprolol"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why switch from Lisinopril to Losartan?",opts:["Losartan is cheaper","Losartan blocks Angiotensin II receptors - same BP control WITHOUT causing the dry cough that ACE inhibitors cause","Losartan is stronger for heart failure","Losartan is given IM"],ans:1,fb:"CORRECT: ACE inhibitors block bradykinin breakdown - bradykinin accumulation causes dry cough in 10-15% of patients. ARBs (Losartan) block Ang II receptors without affecting bradykinin - no cough!"},
+{badge:"qb-m",bl:"Mechanism of action",q:"Key difference: Losartan vs Lisinopril:",opts:["They are identical - interchangeable","Losartan blocks AT1 Angiotensin II receptors; Lisinopril blocks ACE enzyme. Both reduce vasoconstriction but Losartan does NOT affect bradykinin","Losartan inhibits renin directly","Losartan blocks calcium channels"],ans:1,fb:"CORRECT: Lisinopril inhibits ACE, less Ang II + less bradykinin breakdown (bradykinin = cough). Losartan blocks AT1 receptors, bradykinin unaffected, NO cough. Both contraindicated in pregnancy!"},
+{badge:"qb-i",bl:"Contraindications",q:"Both ACE inhibitors AND ARBs are absolutely contraindicated in:",opts:["Patients with diabetes","Pregnancy - teratogenic, causing fetal renal dysgenesis and oligohydramnios","Patients over 65","Patients with kidney stones"],ans:1,fb:"CORRECT: Both ACE inhibitors and ARBs are Category X in pregnancy - fetal renal dysgenesis, oligohydramnios, neonatal renal failure. Both cause hyperkalemia - monitor K+."}],
+pearl:"ACE inhibitors (-pril) cause dry cough from bradykinin. Switch to ARB (-sartan) - same benefit, no cough. BOTH contraindicated in pregnancy!",outcome:"Losartan started! Cough should resolve in 1-2 weeks. Patient educated on the drug class difference."},
+
+{name:"Mr. Patel, 52",icon:"&#128104;",hair:"#2a1a0a",skin:"#8B6347",diff:"easy",mod:7,title:"Acute asthma attack &mdash; wheezing!",desc:"Mr. Patel in moderate respiratory distress. Audible bilateral wheezing, accessory muscle use, SpO2 91%. Known asthmatic. Needs a rescue bronchodilator immediately.",vitals:[{l:"SpO2",v:"91%",red:true},{l:"RR",v:"24/min",red:true},{l:"Wheeze",v:"Bilateral"}],bubble:"I can't breathe!",correct:"Albuterol",decoys:["Ipratropium","Guaifenesin","Amiodarone"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Albuterol first-line for acute asthma?",opts:["Reduces inflammation long-term","Rapidly stimulates Beta-2 receptors causing bronchodilation within minutes - the rescue inhaler","Only safe medication in asthma","Thins mucus secretions"],ans:1,fb:"CORRECT: Albuterol is a SABA (Short-Acting Beta-2 Agonist). Stimulates Beta-2, increases cAMP, relaxes bronchial smooth muscle, bronchodilation in 5-15 minutes. RESCUE inhaler for acute attacks."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Albuterol's MOA:",opts:["Blocks muscarinic receptors","Stimulates Beta-2 adrenergic receptors - increases cAMP - bronchial smooth muscle relaxation and bronchodilation","Inhibits leukotriene receptors","Blocks calcium channels"],ans:1,fb:"CORRECT: Albuterol: Beta-2 agonist, increases cAMP via adenylyl cyclase, PKA activation, smooth muscle relaxation, bronchodilation. Onset 5-15 min, duration 4-6 hr. Side effects: jitteriness, tachycardia."},
+{badge:"qb-i",bl:"Albuterol vs Ipratropium",q:"Key difference between Albuterol and Ipratropium:",opts:["They are identical","Albuterol = RESCUE inhaler (SABA) for acute attacks; Ipratropium = MAINTENANCE anticholinergic for COPD (NOT a rescue inhaler)","Ipratropium is faster","Albuterol is only for COPD"],ans:1,fb:"CORRECT: Albuterol = RESCUE. Ipratropium = MAINTENANCE for COPD, blocks muscarinic receptors. Ipratropium is NOT used for acute rescue!"}],
+pearl:"Albuterol = RESCUE (SABA). Ipratropium = MAINTENANCE (COPD, not rescue). Side effects: jitters, tachycardia. Caution with dysrhythmias.",outcome:"Albuterol via nebulizer! Wheezing decreased. SpO2 rising to 96%. Monitoring for tachycardia."},
+
+{name:"Mrs. Lee, 58",icon:"&#128105;",hair:"#222",skin:"#d4a574",diff:"medium",mod:8,title:"Decompensated HF &mdash; severe edema",desc:"Mrs. Lee: pitting edema 3+ to knees, 8kg weight gain in 5 days, JVD, bilateral crackles. BP 158/94. Decompensated heart failure - needs rapid fluid removal.",vitals:[{l:"BP",v:"158/94",red:true},{l:"Weight",v:"+8 kg!!",red:true},{l:"SpO2",v:"93%",red:true}],bubble:"My legs are so swollen!",correct:"Furosemide",decoys:["Spironolactone","Mannitol","Tamsulosin"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Furosemide first-line for acute decompensated HF?",opts:["It replaces lost potassium","Potent loop diuretic - rapid large-volume diuresis quickly reduces preload and pulmonary/peripheral congestion","It shrinks the prostate","Pulls fluid from the brain by osmosis"],ans:1,fb:"CORRECT: Furosemide acts in the Loop of Henle blocking Na+/K+/2Cl- cotransport, powerful diuresis, reduces intravascular volume, alleviates pulmonary and peripheral edema."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Furosemide's MOA:",opts:["Blocks aldosterone receptors","Inhibits Na+/K+/2Cl- cotransporter in thick ascending Loop of Henle - potassium-WASTING diuresis","Increases osmotic pressure","Blocks alpha-1 receptors"],ans:1,fb:"CORRECT: Furosemide blocks Na+/K+/2Cl- cotransporter in the Loop of Henle. Large volumes of dilute urine produced. KEY: WASTES potassium - always monitor K+! Suffix: -ide."},
+{badge:"qb-i",bl:"Electrolyte monitoring",q:"Most critical electrolyte to monitor with Furosemide:",opts:["Sodium","Potassium - Furosemide wastes K+, causing hypokalemia which triggers dangerous cardiac dysrhythmias","Calcium","Phosphate"],ans:1,fb:"CORRECT: Furosemide WASTES K+. Hypokalemia causes life-threatening dysrhythmias, especially dangerous with Digoxin! Monitor K+ closely and supplement as needed."}],
+pearl:"Furosemide = K+ WASTING (suffix -ide). Monitor for hypokalemia - deadly with Digoxin. Hold if anuric.",outcome:"Furosemide 40mg IV given! Excellent urine output. Edema beginning to resolve."},
+
+{name:"Mr. Kim, 48",icon:"&#128104;",hair:"#1a1a1a",skin:"#c07040",diff:"medium",mod:8,title:"Elevated ICP &mdash; head trauma",desc:"Mr. Kim had a motor vehicle accident. CT: cerebral edema. Cushing's triad developing: HTN, bradycardia, irregular respirations. Neurosurgery orders osmotic therapy to reduce ICP.",vitals:[{l:"BP",v:"188/52",red:true},{l:"HR",v:"44 (low!)",red:true},{l:"ICP",v:"Elevated",red:true}],bubble:"",correct:"Mannitol",decoys:["Furosemide","Spironolactone","Finasteride"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Mannitol used to treat elevated ICP?",opts:["It is a loop diuretic reducing total body fluid","Increases serum osmolarity - draws fluid from brain tissue into bloodstream by osmosis - rapidly reduces cerebral edema and ICP","Blocks aldosterone to reduce sodium retention","Relaxes cerebral blood vessels"],ans:1,fb:"CORRECT: Mannitol is an osmotic diuretic. Increases serum osmolarity, draws fluid from brain parenchyma into blood, reduces cerebral edema and ICP within 15-30 minutes."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Mannitol's MOA:",opts:["Blocks Na+/K+/2Cl- cotransporter","Freely filtered but NOT reabsorbed - increases osmotic pressure in tubule and bloodstream - draws fluid from brain into vasculature","Blocks aldosterone receptors","Inhibits carbonic anhydrase"],ans:1,fb:"CORRECT: Mannitol is freely filtered but not reabsorbed, osmotic drag, water follows, diuresis. Simultaneously increases serum osmolarity, pulls fluid from edematous brain."},
+{badge:"qb-i",bl:"Critical administration",q:"Critical nursing consideration when giving Mannitol IV:",opts:["Give slowly over 24 hours","Use a FILTER NEEDLE - Mannitol crystallizes in solution; contraindicated in dehydration and active intracranial bleeding","Mix with Normal Saline only","Monitor potassium closely"],ans:1,fb:"CORRECT: Mannitol crystallizes - always use a filter needle (5-micron). Do NOT give if crystals present. Contraindicated in dehydration and active intracranial hemorrhage."}],
+pearl:"Mannitol = osmotic diuretic. Use FILTER NEEDLE (crystallizes!). Contraindicated in dehydration and active intracranial hemorrhage.",outcome:"Mannitol 1g/kg IV via filter needle! ICP improving. Neurosurgery at bedside. Repeat CT ordered."},
+
+{name:"Ms. Rivera, 54",icon:"&#128105;",hair:"#3B2314",skin:"#C4845A",diff:"easy",mod:9,title:"Type 2 DM &mdash; glucose 340 mg/dL",desc:"Ms. Rivera admitted for cellulitis. Morning glucose 340 mg/dL. Alert and oriented. T2DM history - home Metformin held on admission. MD orders insulin coverage.",vitals:[{l:"Glucose",v:"340!!",red:true},{l:"HR",v:"88 bpm"},{l:"BP",v:"132/78"}],bubble:"I feel so thirsty!",correct:"Regular Insulin",decoys:["Glucagon","Metformin","Levothyroxine"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why Regular Insulin instead of home Metformin in hospital?",opts:["Insulin is cheaper","Metformin is held in hospitalized patients (lactic acidosis/contrast risk); insulin provides rapid titratable control","Metformin causes hypoglycemia in hospital","Insulin can be given orally"],ans:1,fb:"CORRECT: Metformin held in hospital - risk of lactic acidosis if renal function declines or contrast is needed. Insulin provides precise, fast-acting glucose control."},
+{badge:"qb-m",bl:"Mechanism of action",q:"How does Regular Insulin lower blood glucose?",opts:["Inhibits hepatic glucose production only","Binds insulin receptors - GLUT-4 translocation - cellular glucose uptake and suppressed hepatic output","Stimulates glycogen breakdown","Blocks alpha-glucosidase"],ans:1,fb:"CORRECT: Insulin binds receptors, GLUT-4 moves to cell membrane, glucose enters cells. Also suppresses glucagon and hepatic glucose production. Regular Insulin peaks in 2-4 hours."},
+{badge:"qb-i",bl:"Critical safety",q:"Regular Insulin is unique because:",opts:["Can be given orally","ONLY insulin approved for IV infusion - all others (NPH, glargine, lispro) are subcutaneous ONLY","Works fastest IM","Does not cause hypoglycemia"],ans:1,fb:"CORRECT: Regular Insulin is the ONLY insulin given IV. Giving any other insulin IV can be fatal! Always verify insulin type before IV administration."}],
+pearl:"Only Regular Insulin can be given IV! Peak 2-4 hours. Have glucagon available - antidote for severe hypoglycemia.",outcome:"Regular Insulin given! Glucose trending down. Rechecking in 1 hour per sliding scale."},
+
+{name:"Mrs. Adams, 45",icon:"&#128105;",hair:"#8B4513",skin:"#d4a574",diff:"easy",mod:9,title:"Hypothyroidism &mdash; fatigue and weight gain",desc:"Mrs. Adams: 6 months of fatigue, cold intolerance, 8kg weight gain, constipation, dry skin. TSH 12.4 (high). Free T4 low. Diagnosis: primary hypothyroidism.",vitals:[{l:"TSH",v:"12.4!!",red:true},{l:"HR",v:"52 (slow)",red:true},{l:"Temp",v:"36.1C"}],bubble:"I am exhausted always.",correct:"Levothyroxine",decoys:["Methimazole","Glucagon","Metformin"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Levothyroxine prescribed for hypothyroidism?",opts:["It stimulates the thyroid to make more hormone","It replaces the missing thyroid hormone - synthetic T4 converted to active T3 in peripheral tissues","It blocks TSH from stimulating the thyroid","It reduces iodine uptake"],ans:1,fb:"CORRECT: Levothyroxine is synthetic T4. The body converts T4 to T3 (active form) in peripheral tissues. This replaces the deficient hormone, restoring metabolic function. T4 half-life ~7 days."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Levothyroxine's MOA:",opts:["Inhibits iodine uptake","Synthetic T4 - binds thyroid hormone nuclear receptors - regulates gene transcription - restores normal metabolism","Blocks TSH receptors","Acts as an iodine supplement"],ans:1,fb:"CORRECT: Levothyroxine (synthetic T4) converted to T3, binds nuclear thyroid hormone receptors, regulates transcription of genes controlling metabolism, cardiac function, and thermogenesis."},
+{badge:"qb-i",bl:"Administration",q:"Critical instruction for taking Levothyroxine:",opts:["Take with a high-protein meal","Take on empty stomach 30-60 min before breakfast - food, calcium, and iron reduce absorption; full effect takes 6-8 weeks","Take at bedtime with milk","Take with grapefruit juice"],ans:1,fb:"CORRECT: Take on EMPTY stomach 30-60 min before breakfast. Food drastically reduces absorption. Full therapeutic effect takes 6-8 WEEKS - patients need reassurance!"}],
+pearl:"Levothyroxine = synthetic T4. Take on empty stomach. Full effect: 6-8 WEEKS. Contraindicated in acute MI.",outcome:"Levothyroxine started! TSH rechecked in 6-8 weeks. Patient educated on empty stomach administration."},
+
+{name:"Mr. Hassan, 55",icon:"&#128104;",hair:"#2a1a0a",skin:"#8B6347",diff:"medium",mod:9,title:"Thyroid storm &mdash; HR 148, temp 40C",desc:"Mr. Hassan missed his antithyroid medication. Presents with HR 148, temp 40.1C, agitation, diaphoresis. Thyroid storm suspected. MD orders antithyroid therapy urgently.",vitals:[{l:"HR",v:"148!!",red:true},{l:"Temp",v:"40.1C!!",red:true},{l:"TSH",v:"below 0.01",red:true}],bubble:"My heart is racing!",correct:"Methimazole",decoys:["Levothyroxine","Regular Insulin","Glucagon"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Methimazole used to treat hyperthyroidism?",opts:["It stimulates thyroid hormone production","Blocks thyroid peroxidase - the enzyme needed to synthesize T3 and T4 - reducing hormone production","It replaces missing thyroid hormone","It blocks TSH receptors"],ans:1,fb:"CORRECT: Methimazole blocks thyroid peroxidase, prevents iodination of thyroglobulin, halts T3/T4 synthesis. Takes 1-2 weeks for full effect (stored hormone must deplete first)."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Methimazole's MOA:",opts:["Inhibits iodine GI absorption","Inhibits thyroid peroxidase, blocking organification of iodide and coupling of iodotyrosines - preventing T3/T4 synthesis","Destroys thyroid tissue","Blocks thyroid hormone at peripheral receptors"],ans:1,fb:"CORRECT: Methimazole blocks thyroid peroxidase (TPO), iodide cannot be organified, T3/T4 synthesis halted. Existing stored hormone still releases for 1-2 weeks."},
+{badge:"qb-i",bl:"Critical adverse effect",q:"Most critical adverse effect to monitor with Methimazole:",opts:["Dry cough","Agranulocytosis - potentially fatal drop in WBCs; report sore throat or fever immediately","Yellowing of skin","Peripheral edema"],ans:1,fb:"CORRECT: Agranulocytosis is the most dangerous effect - sudden severe drop in neutrophils. Patients MUST report any sore throat, fever, or mouth sores immediately and get a CBC!"}],
+pearl:"Methimazole: blocks T3/T4 synthesis. Monitor for AGRANULOCYTOSIS (report sore throat/fever!). Takes 1-2 weeks for effect.",outcome:"Methimazole given! Beta-blocker added for tachycardia. Thyroid storm protocol activated. Endocrinology called."},
+
+{name:"Mr. Nguyen, 62",icon:"&#128104;",hair:"#2a2a2a",skin:"#c07040",diff:"medium",mod:10,title:"Erosive GERD &mdash; daily heartburn",desc:"Mr. Nguyen has daily heartburn, regurgitation, and nocturnal symptoms. Endoscopy: erosive esophagitis. MD prescribes acid suppression therapy for 8 weeks.",vitals:[{l:"BP",v:"130/82"},{l:"HR",v:"74 bpm"},{l:"pH",v:"Acidic"}],bubble:"The burning never stops!",correct:"Omeprazole",decoys:["Sucralfate","Metoclopramide","Lactulose"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Omeprazole preferred over antacids for erosive esophagitis?",opts:["Antacids are too strong","Omeprazole irreversibly inhibits the H+/K+ ATPase proton pump - the final step of acid secretion - providing superior sustained acid suppression","Omeprazole works faster","Antacids damage the esophagus"],ans:1,fb:"CORRECT: PPIs (Omeprazole) irreversibly inhibit H+/K+ ATPase (proton pump) - the final pathway of ALL gastric acid secretion. 24-hour acid suppression, far superior to antacids. Suffix: -prazole."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Omeprazole's MOA:",opts:["Neutralizes existing stomach acid","Irreversibly inhibits H+/K+ ATPase (proton pump) on parietal cells - blocking the final step of gastric acid secretion","Blocks H2 receptors","Coats the esophagus"],ans:1,fb:"CORRECT: Omeprazole is a prodrug, activated in acidic parietal cell canaliculi, covalently binds and IRREVERSIBLY inhibits H+/K+ ATPase, no acid secretion from that pump."},
+{badge:"qb-i",bl:"Administration",q:"When should Omeprazole be taken?",opts:["At bedtime","30-60 minutes BEFORE the first meal - must be activated in acidic environment of actively secreting parietal cells","With food to prevent upset","Any time"],ans:1,fb:"CORRECT: Take 30-60 min BEFORE breakfast! Omeprazole needs to be activated when parietal cells are actively secreting acid (stimulated by eating). Taking with or after food dramatically reduces effectiveness."}],
+pearl:"Omeprazole (-prazole) = PPI. Take 30-60 min BEFORE breakfast. Irreversibly inhibits proton pump. Long-term risk: C. diff, osteoporosis, B12 deficiency.",outcome:"Omeprazole started before breakfast! Heartburn improved by day 3. Follow-up endoscopy in 8 weeks."},
+
+{name:"Mr. Carter, 71",icon:"&#128116;",hair:"#888",skin:"#d4a574",diff:"hard",mod:10,title:"Hepatic encephalopathy &mdash; confused!",desc:"Mr. Carter has cirrhosis. Presents with confusion, disorientation, asterixis (liver flap), ammonia 145 umol/L. Hepatic encephalopathy - brain is being poisoned by ammonia.",vitals:[{l:"NH3",v:"145!!",red:true},{l:"Orient",v:"Confused",red:true},{l:"Asterixis",v:"Present",red:true}],bubble:"Where... am I?",correct:"Lactulose",decoys:["Omeprazole","Metoclopramide","Sucralfate"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Lactulose given for hepatic encephalopathy?",opts:["To treat constipation only","Lactulose acidifies the colon - converting ammonia (NH3) to ammonium (NH4+) which is trapped and excreted in stool, reducing blood ammonia and improving brain function","To neutralize stomach acid","To speed up stomach emptying"],ans:1,fb:"CORRECT: Lactulose fermented by bacteria, lactic/acetic acid, acidic colon, NH3 + H+ produces NH4+ (non-absorbable), trapped in colon, excreted. Goal: reduce serum ammonia, improve mental status."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Lactulose's MOA in hepatic encephalopathy:",opts:["Directly detoxifies ammonia in liver","Osmotic laxative that acidifies colon, trapping ammonia as non-absorbable ammonium - excreted in stool; also increases transit reducing ammonia absorption","Provides lactulose as liver nutrient","Directly improves liver function"],ans:1,fb:"CORRECT: Lactulose to colon, fermented by bacteria, low pH, NH3 to NH4+ (non-diffusible), cannot be absorbed, excreted. Osmotic effect also accelerates stool transit."},
+{badge:"qb-i",bl:"Goal of therapy",q:"Goal of Lactulose therapy in hepatic encephalopathy:",opts:["5 or more watery stools per day","2-3 soft stools per day AND improved mental status - the actual clinical endpoint; over-laxation causes electrolyte imbalances","Stop all bowel movements","Achieve blood ammonia of zero"],ans:1,fb:"CORRECT: Goal: 2-3 soft stools/day + IMPROVED MENTAL STATUS. Over-laxation causes dangerous electrolyte imbalances. Titrate dose to mental status improvement, not just stool count."}],
+pearl:"Lactulose: traps ammonia as NH4+ in colon. Goal: 2-3 soft stools/day AND improved mental status. Contraindicated in galactosemia.",outcome:"Lactulose started! Ammonia trending down. Mr. Carter is more oriented. Family updated."},
+
+{name:"Mr. Foster, 58",icon:"&#128104;",hair:"#5a3a1a",skin:"#d4a574",diff:"easy",mod:11,title:"Acute gout &mdash; big toe on fire!",desc:"Mr. Foster: sudden onset severe pain, redness, warmth, swelling of the right big toe that woke him at 3am. Uric acid 9.8 mg/dL. Classic acute gout flare.",vitals:[{l:"Uric Acid",v:"9.8!!",red:true},{l:"Temp",v:"37.8C"},{l:"HR",v:"82 bpm"}],bubble:"My big toe is on FIRE!",correct:"Colchicine",decoys:["Allopurinol","Alendronate","Calcitonin"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why Colchicine for ACUTE gout - not Allopurinol?",opts:["They are identical","Colchicine treats ACUTE flares by inhibiting leukocyte migration; Allopurinol is for CHRONIC prevention only - NEVER start during acute flare!","Allopurinol is too expensive","Colchicine lowers uric acid"],ans:1,fb:"CORRECT: Colchicine for acute gout = stops WBC migration into joint. Allopurinol for chronic gout = prevents uric acid production. NEVER start Allopurinol during acute flare - it mobilizes urate crystals and WORSENS the attack!"},
+{badge:"qb-m",bl:"Mechanism of action",q:"Colchicine's MOA:",opts:["Inhibits xanthine oxidase","Inhibits microtubule polymerization - prevents neutrophil migration and activation in the inflamed joint - reduces acute inflammatory response","Blocks prostaglandin synthesis like NSAIDs","Dissolves uric acid crystals"],ans:1,fb:"CORRECT: Colchicine binds tubulin, inhibits microtubule formation, neutrophils cannot migrate to joint, reduced phagocytosis of urate crystals, reduced inflammatory cytokine release, pain and swelling improve."},
+{badge:"qb-i",bl:"Side effects",q:"Most notable side effect of Colchicine:",opts:["Tinnitus","Severe diarrhea - dose-limiting GI side effect; also nausea and vomiting; contraindicated in severe renal disease","Pulmonary toxicity","Tendon rupture"],ans:1,fb:"CORRECT: Severe diarrhea is the hallmark side effect. Patients often get gout relief before diarrhea appears. Use with caution in renal disease."}],
+pearl:"Colchicine = ACUTE gout. Allopurinol = CHRONIC prevention (NEVER during acute flare!). Major side effect: severe diarrhea.",outcome:"Colchicine given! Joint pain and swelling improving over 12-24 hours. Dietary counseling arranged."},
+
+{name:"Mrs. Yamamoto, 72",icon:"&#128117;",hair:"#c0c0c0",skin:"#f0c090",diff:"medium",mod:11,title:"Osteoporosis &mdash; DEXA T-score -3.2",desc:"Mrs. Yamamoto: DEXA T-score -3.2 (severe osteoporosis), fragility fracture of L2 last year. Post-menopausal, high fracture risk. MD prescribes bisphosphonate therapy.",vitals:[{l:"T-Score",v:"-3.2!!",red:true},{l:"Ca2+",v:"9.1 mg/dL"},{l:"Vit D",v:"28 ng/mL"}],bubble:"My back hurts every day.",correct:"Alendronate",decoys:["Calcitonin","Colchicine","Allopurinol"],
+qs:[{badge:"qb-w",bl:"Why this drug?",q:"Why is Alendronate prescribed for osteoporosis?",opts:["It provides calcium directly to bones","Inhibits osteoclasts - the cells that break down bone - reducing bone resorption and increasing bone mineral density","Stimulates osteoblasts to build new bone","Replaces estrogen to prevent bone loss"],ans:1,fb:"CORRECT: Alendronate (bisphosphonate) binds bone hydroxyapatite, taken up by osteoclasts, inhibits farnesyl pyrophosphate synthase, osteoclast apoptosis, reduced bone resorption, increased bone density."},
+{badge:"qb-m",bl:"Mechanism of action",q:"Alendronate's MOA:",opts:["Provides calcium supplements","Binds bone hydroxyapatite - ingested by osteoclasts - inhibits their metabolic activity and induces apoptosis - reduces bone resorption - net bone density gain","Stimulates parathyroid hormone","Blocks calcitonin receptors"],ans:1,fb:"CORRECT: Bisphosphonates high affinity for bone hydroxyapatite, osteoclasts ingest during resorption, inhibits farnesyl PP synthase in mevalonate pathway, osteoclast dysfunction/apoptosis, less bone breakdown."},
+{badge:"qb-i",bl:"Critical administration",q:"Critical instruction for taking Alendronate:",opts:["Take with food and full meal","Take on empty stomach with FULL glass of water and remain UPRIGHT for 30 min - risk of severe esophageal ulceration if lying down","Take at bedtime lying down","Take with calcium at the same time"],ans:1,fb:"CORRECT: Take on empty stomach with 8oz water. Remain UPRIGHT for AT LEAST 30 minutes after taking! Alendronate can cause severe esophageal erosions and ulceration if it contacts esophageal mucosa."}],
+pearl:"Alendronate (-dronate): inhibits osteoclasts. STAY UPRIGHT 30 min after taking - esophageal ulceration risk. Empty stomach with full glass of water.",outcome:"Alendronate prescribed with thorough education. Patient demonstrated correct technique. Calcium and Vitamin D also added."},
+
+{name:"Mr. Davis, 65",icon:"&#128104;",hair:"#444",skin:"#c07040",diff:"hard",mod:4,title:"&#9888; Heparin overdose &mdash; bleeding!",desc:"Mr. Davis on Heparin drip for DVT develops sudden hematuria, gum bleeding, oozing from IV sites. aPTT critically elevated at 210 sec (therapeutic: 60-100). Heparin toxicity with active bleeding!",vitals:[{l:"aPTT",v:"210!!",red:true},{l:"Bleeding",v:"Active!!",red:true},{l:"BP",v:"102/64",red:true}],bubble:"I am bleeding everywhere!",correct:"Protamine Sulfate",decoys:["Vitamin K","Alteplase","Clopidogrel"],
+qs:[{badge:"qb-a",bl:"Antidote!",q:"Antidote for Heparin overdose with active bleeding?",opts:["Vitamin K - warfarin antidote","Protamine Sulfate - positively charged protein that binds negatively charged heparin, immediately reversing anticoagulation","Fresh Frozen Plasma only","Naloxone - opioid antidote"],ans:1,fb:"CORRECT: Protamine Sulfate is the specific Heparin antidote. Positively charged protein binds negatively charged Heparin, ionic complex with no anticoagulant activity, immediate reversal."},
+{badge:"qb-m",bl:"Mechanism of action",q:"How does Heparin work (that we are reversing)?",opts:["Directly dissolves blood clots","Binds Antithrombin III - dramatically accelerating its inhibition of Thrombin and Factor Xa - preventing clot formation","Blocks Vitamin K to deplete clotting factors","Inhibits platelet aggregation"],ans:1,fb:"CORRECT: Heparin binds ATIII, conformational change, ATIII activity increases 1000-fold, rapidly inactivates Thrombin (IIa) and Factor Xa, prevents fibrin clot formation. Lab monitor: aPTT (therapeutic: 60-100 sec)."},
+{badge:"qb-i",bl:"Prevention",q:"What monitoring PREVENTS Heparin-related bleeding?",opts:["Monitor PT/INR (that is for Warfarin)","Monitor aPTT every 6 hours - therapeutic 60-100 sec; watch for bleeding (hematuria, gum bleeding, sudden headache); hold if aPTT above 100","Platelet count only","Blood glucose"],ans:1,fb:"CORRECT: Monitor aPTT every 6 hours on heparin drip - therapeutic: 60-100 sec. Also monitor for HIT (check platelets!). Signs of overdose: unexpected bleeding at any site. This was preventable!"}],
+pearl:"Heparin antidote = Protamine Sulfate. Monitor aPTT (60-100 therapeutic). Watch for HIT - check platelets! Never miss a scheduled aPTT.",outcome:"Heparin drip stopped! Protamine Sulfate given! Bleeding slowing. aPTT rechecked in 2 hours. Hematology notified."}
 ];
 
-function shuffle(a){return a.sort(()=>Math.random()-0.5)}
-function rnd3wrong(correct,pool){
-  return shuffle(pool.filter(d=>d.name!==correct)).slice(0,3).map(d=>d.name)
-}
+var G={sc:null,phase:'idle',nurseSelected:false,hasDrug:false,score:0,qIdx:0,qDone:false,wrongCount:0};
+function $(id){return document.getElementById(id);}
+var spT=null;
+function say(t,ms){var s=$('speech');s.textContent=t;s.className='show';clearTimeout(spT);if(ms>0)spT=setTimeout(function(){s.className='';},ms);}
+function dots(a){for(var i=0;i<5;i++){var d=$('sd'+i);d.className='sd'+(i<a?' done':i===a?' active':'');}}
+function pb(h){$('pb').innerHTML=h;}
+function glow(on){$('nurse').style.outline=on?'2.5px solid #7F77DD':'none';$('nurse').style.borderRadius=on?'4px':'';}
+function walk(x,cb){var n=$('nurse');n.classList.add('walking');n.style.left=x+'px';setTimeout(function(){n.classList.remove('walking');if(cb)cb();},580);}
 
-const SCENARIOS=[
-{name:"Mr. Chen, 67",icon:"👴",hair:"#6b6b6b",skin:"#d4a574",diff:"easy",mod:3,
- title:"STEMI — crushing chest pain",
- desc:"Mr. Chen has crushing chest pain, diaphoresis, jaw pain x45 min. 12-lead ECG: ST elevation V1-V4. Troponin rising.",
- vitals:[{l:"BP",v:"148/92"},{l:"HR",v:"98 bpm"},{l:"SpO2",v:"97%"}],
- bubble:"My chest feels so tight!",
- correct:"Aspirin",
- decoys:["Nitroglycerin","Metoprolol","Heparin"],
- qs:[
-  {badge:"qb-w",bl:"Why this drug?",q:"Why is Aspirin given immediately for suspected STEMI?",
-   opts:["To lower his blood pressure rapidly","To irreversibly inhibit platelet aggregation and prevent further coronary thrombus extension","To dissolve the existing blood clot","To slow his heart rate down"],
-   ans:1,fb:"✅ Aspirin irreversibly acetylates COX-1, blocking thromboxane A2 — permanently disabling platelet aggregation for the platelet's entire 7-10 day lifespan. It's the most critical first drug in STEMI."},
-  {badge:"qb-m",bl:"Mechanism of action",q:"Aspirin's MOA in MI is:",
-   opts:["Blocks Beta-1 adrenergic receptors","Inhibits HMG-CoA reductase to reduce cholesterol","Irreversibly inhibits COX-1 & COX-2, blocking prostaglandins and platelet aggregation","Blocks Vitamin K-dependent clotting factors 2,7,9,10"],
-   ans:2,fb:"✅ Aspirin irreversibly acetylates cyclooxygenase enzymes. Since platelets have no nucleus to make new COX, aspirin disables them permanently — this is why it's called an irreversible antiplatelet."},
-  {badge:"qb-i",bl:"Contraindications",q:"Which patient should NOT receive Aspirin?",
-   opts:["A 55-year-old with hypertension","A child with viral illness — Reye's Syndrome risk","A 70-year-old post-MI on maintenance therapy","Adult patient with stable angina"],
-   ans:1,fb:"✅ Aspirin is CONTRAINDICATED in children with viral illness due to Reye's Syndrome — rare but fatal hepatic and cerebral dysfunction. Stop 1 week before surgery. Tinnitus signals toxicity."}
- ],
- pearl:"325mg chewed (not swallowed) for fastest absorption in STEMI. Tinnitus = toxicity. Stop 1 week pre-surgery.",
- outcome:"Aspirin administered! Cath lab activated for primary PCI. Mr. Chen is stabilizing."
-},
-{name:"Mrs. Park, 61",icon:"👩",hair:"#1a1a1a",skin:"#c4845a",diff:"hard",mod:6,
- title:"⚠️ Digoxin toxicity — double dose error!",
- desc:"New nurse gave Digoxin 0.5mg instead of 0.25mg. Mrs. Park reports yellow halos around lights, nausea. HR now 42 bpm. This is Digoxin Toxicity — find the ANTIDOTE!",
- vitals:[{l:"HR",v:"42!!",red:true},{l:"K+",v:"5.8 mEq/L",red:true},{l:"BP",v:"90/58",red:true}],
- bubble:"Everything looks yellow!",
- correct:"Digoxin",
- decoys:["Amiodarone","Adenosine","Metoprolol"],
- wrongDrugMsg:"⚠️ More Digoxin would WORSEN toxicity! She needs the ANTIDOTE — Digoxin Immune Fab! Think: what reverses Digoxin?",
- specialCorrect:"Digoxin Immune Fab",
- specialDecoys:["Naloxone","Protamine Sulfate","Vitamin K"],
- qs:[
-  {badge:"qb-a",bl:"Antidote!",q:"What is the specific antidote for Digoxin toxicity?",
-   opts:["Naloxone — opioid receptor antagonist","Protamine Sulfate — heparin reversal","Digoxin Immune Fab — antibody fragments that bind and neutralize free Digoxin","Vitamin K — warfarin reversal"],
-   ans:2,fb:"✅ Digoxin Immune Fab (DigiFab) are antibody fragments with extremely high affinity for Digoxin. They bind free Digoxin in serum → complex excreted by kidneys → rapid reversal of toxicity."},
-  {badge:"qb-w",bl:"Toxicity signs",q:"Classic signs of Digoxin toxicity are:",
-   opts:["Hypertension + tachycardia + red-tinted vision","Yellow/green halos + bradycardia + nausea/vomiting + hyperkalemia","Dry cough + angioedema + high potassium","Muscle pain + dark urine + elevated CK"],
-   ans:1,fb:"✅ Classic triad: (1) Visual — yellow/green halos or blurred vision, (2) Cardiac — bradycardia and dysrhythmias (Digoxin slows AV conduction), (3) GI — nausea, vomiting, anorexia. Hyperkalemia worsens toxicity!"},
-  {badge:"qb-i",bl:"Prevention",q:"What assessment MUST happen before every Digoxin dose?",
-   opts:["Blood pressure only","Check apical pulse for 1 full minute — HOLD if HR <60 bpm; monitor serum Digoxin (0.5-2 ng/mL) and potassium","Monitor urine output only","Check temperature and weight"],
-   ans:1,fb:"✅ Safety rule: Apical pulse 1 full minute before Digoxin — hold and notify MD if HR <60. Therapeutic window: 0.5-2.0 ng/mL. Hypokalemia dramatically increases toxicity risk. This error was preventable!"}
- ],
- pearl:"Yellow halos = STOP Digoxin immediately. Antidote: Digoxin Immune Fab. Therapeutic: 0.5-2.0 ng/mL. Hypokalemia worsens toxicity.",
- outcome:"Digoxin Immune Fab given! Digoxin neutralized. HR improving. Critical medication error documented and reported."
-},
-{name:"Mr. Walsh, 55",icon:"👨",hair:"#b8742a",skin:"#d4a574",diff:"hard",mod:5,
- title:"⚠️ Opioid OD — not breathing!",
- desc:"Post-op patient found unresponsive after Morphine 8mg IV. RR 4/min. Pinpoint pupils. SpO2 82%. Classic opioid-induced respiratory depression — act fast!",
- vitals:[{l:"RR",v:"4/min!!",red:true},{l:"SpO2",v:"82%!!",red:true},{l:"Pupils",v:"Pinpoint",red:true}],
- bubble:"",
- correct:"Naloxone",
- decoys:["Morphine","Diazepam","Acetaminophen"],
- qs:[
-  {badge:"qb-a",bl:"Antidote!",q:"What is the antidote for opioid-induced respiratory depression?",
-   opts:["Flumazenil — benzodiazepine reversal agent","Naloxone (Narcan) — competitive mu-opioid receptor antagonist that rapidly displaces opioids","Protamine Sulfate — heparin reversal","Acetylcysteine — acetaminophen antidote"],
-   ans:1,fb:"✅ Naloxone has higher receptor affinity than opioids. It rapidly displaces Morphine from mu-receptors, restoring respiratory drive within 1-2 min IV. It is a pure antagonist — no agonist activity."},
-  {badge:"qb-m",bl:"Mechanism of action",q:"How does Naloxone reverse Morphine's effects?",
-   opts:["Metabolizes Morphine rapidly in the liver","Competitively displaces Morphine from mu-opioid receptors, blocking effects and restoring normal CNS/respiratory function","Increases respiratory drive through beta-2 stimulation","Stimulates dopamine receptors in the brainstem"],
-   ans:1,fb:"✅ Naloxone is a pure competitive opioid antagonist — no opioid effects of its own. It outcompetes opioids for mu, kappa, and delta receptors, reversing sedation and respiratory depression within minutes."},
-  {badge:"qb-i",bl:"Critical safety",q:"After Naloxone reversal, the MOST important risk to monitor is:",
-   opts:["Severe hypertension crisis","Re-narcotization — Naloxone's half-life (30-90 min) is SHORTER than Morphine (3-4 hrs), so respiratory depression can return","Hyperglycemia from stress response","Anaphylaxis to Naloxone"],
-   ans:1,fb:"✅ CRITICAL: Naloxone wears off before Morphine does! Monitor continuously after reversal. Consider Naloxone infusion for long-acting opioids. Never leave this patient — re-sedation can be fatal."}
- ],
- pearl:"3 P's of opioid OD: Pinpoint pupils, Pale/cyanotic, Poor respirations. Naloxone t½ 30-90 min vs Morphine 3-4 hrs — re-sedation is real!",
- outcome:"Naloxone given! RR improved to 14 breaths/min within 90 seconds. SpO2 rising. On continuous monitoring for re-sedation."
-},
-{name:"Ms. Rivera, 54",icon:"👩",hair:"#3B2314",skin:"#C4845A",diff:"easy",mod:9,
- title:"Type 2 DM — glucose 340 mg/dL",
- desc:"Ms. Rivera admitted for cellulitis. Morning glucose 340 mg/dL. Alert and oriented. History of T2DM — home Metformin held on admission. MD orders insulin coverage.",
- vitals:[{l:"Glucose",v:"340!!",red:true},{l:"HR",v:"88 bpm"},{l:"BP",v:"132/78"}],
- bubble:"I feel so thirsty!",
- correct:"Regular Insulin",
- decoys:["Glucagon","Metformin","Levothyroxine"],
- qs:[
-  {badge:"qb-w",bl:"Why this drug?",q:"Why Regular Insulin instead of her home Metformin in the hospital?",
-   opts:["Insulin is cheaper in hospital formulary","Metformin is held in hospitalized patients (lactic acidosis/contrast risk); insulin provides rapid titratable glucose control","Metformin causes hypoglycemia in hospital","Insulin can be given orally making it convenient"],
-   ans:1,fb:"✅ Metformin is held in hospitalized patients — risk of lactic acidosis, especially if renal function declines or IV contrast is needed. Insulin provides precise, fast-acting control in acute settings."},
-  {badge:"qb-m",bl:"Mechanism of action",q:"How does Regular Insulin lower blood glucose?",
-   opts:["Inhibits hepatic glucose production only","Binds insulin receptors triggering GLUT-4 translocation, facilitating cellular glucose uptake and suppressing hepatic output","Stimulates glycogen breakdown (glycogenolysis)","Blocks alpha-glucosidase to reduce GI glucose absorption"],
-   ans:1,fb:"✅ Insulin binds cell surface receptors → GLUT-4 transporter moves to cell membrane → glucose enters cells. Also suppresses glucagon and hepatic glucose production. Regular Insulin peaks in 2-4 hours."},
-  {badge:"qb-i",bl:"Critical safety",q:"Regular Insulin is UNIQUE because:",
-   opts:["It can be given orally in emergencies","It is the ONLY insulin approved for IV infusion — all others are subcutaneous only","It works fastest when given intramuscularly","It does not cause hypoglycemia unlike other insulins"],
-   ans:1,fb:"✅ CRITICAL SAFETY: Regular Insulin is the ONLY insulin that can be given IV. Giving NPH, glargine, or any other insulin IV can be fatal! Always verify the insulin type before IV administration."}
- ],
- pearl:"Only Regular Insulin can be given IV! Peak 2-4 hours. Have glucagon available — antidote for severe hypoglycemia. Hold Metformin 48hrs before/after contrast.",
- outcome:"Regular Insulin administered! Glucose trending down. Rechecking in 1 hour per sliding scale protocol."
-},
-{name:"Mr. Okafor, 78",icon:"👴",hair:"#2C2C2A",skin:"#8B6347",diff:"medium",mod:5,
- title:"Status epilepticus — seizing 8 minutes!",
- desc:"Mr. Okafor, known epileptic, has been seizing continuously for 8 minutes. Unresponsive between jerks. IV access established. RR 8, SpO2 91%. MD orders IV benzodiazepine.",
- vitals:[{l:"RR",v:"8 (low!)",red:true},{l:"SpO2",v:"91%",red:true},{l:"HR",v:"118 bpm"}],
- bubble:"",
- correct:"Diazepam",
- decoys:["Phenytoin","Valproic Acid","Morphine"],
- qs:[
-  {badge:"qb-w",bl:"Why this drug?",q:"Why is Diazepam first-line for status epilepticus?",
-   opts:["It raises blood pressure to improve cerebral perfusion","It rapidly enhances GABA — the brain's main inhibitory neurotransmitter — terminating seizure activity within minutes","It permanently cures epilepsy by blocking sodium channels","It reduces brain swelling by acting as an osmotic agent"],
-   ans:1,fb:"✅ Benzodiazepines are first-line for status epilepticus. They rapidly enhance GABA-A receptor activity, increasing Cl- influx and hyperpolarizing neurons — stopping runaway firing fast. Time is brain tissue!"},
-  {badge:"qb-m",bl:"Mechanism of action",q:"Diazepam's mechanism of action is:",
-   opts:["Blocks Na+ channels to stabilize neuronal membranes","Binds GABA-A receptors, increasing FREQUENCY of Cl- channel opening, enhancing inhibitory neurotransmission","Blocks ADP receptors on platelets to prevent clotting","Antagonizes dopamine D2 receptors in the limbic system"],
-   ans:1,fb:"✅ Diazepam binds the benzodiazepine site on GABA-A receptors, increasing FREQUENCY of Cl- channel opening (barbiturates increase DURATION — key distinction). This hyperpolarizes the neuron, stopping seizure activity."},
-  {badge:"qb-i",bl:"Critical risk",q:"With RR 8 and SpO2 91%, the most critical concern giving Diazepam is:",
-   opts:["Risk of severe hypertension","Respiratory depression — benzodiazepines suppress CNS and can cause apnea, especially with already-compromised breathing","Risk of hyperglycemia and electrolyte imbalance","Tinnitus and permanent hearing loss"],
-   ans:1,fb:"✅ Benzodiazepines cause dose-dependent respiratory depression. With SpO2 91% and RR 8, have airway equipment, bag-valve mask, and flumazenil (reversal agent) immediately available. Monitor continuously!"}
- ],
- pearl:"Antidote for benzodiazepine OD: Flumazenil. Diazepam increases FREQUENCY of Cl- channel opening. High addiction risk — Class IV controlled substance.",
- outcome:"Seizure terminated within 2 minutes! Mr. Okafor now postictal and monitoring. Neurology consulted."
-},
-{name:"Mrs. Lee, 58",icon:"👩",hair:"#222",skin:"#d4a574",diff:"medium",mod:8,
- title:"Heart failure — severe leg edema",
- desc:"Mrs. Lee presents with pitting edema 3+ to the knees, 8kg weight gain in 5 days, JVD, and crackles bilaterally at the lung bases. BP 158/94. Diagnosed with decompensated heart failure.",
- vitals:[{l:"BP",v:"158/94",red:true},{l:"Weight",v:"+8 kg!!",red:true},{l:"SpO2",v:"93%",red:true}],
- bubble:"My legs are so swollen I can barely walk!",
- correct:"Furosemide",
- decoys:["Spironolactone","Mannitol","Tamsulosin"],
- qs:[
-  {badge:"qb-w",bl:"Why this drug?",q:"Why is Furosemide the first-line diuretic for acute decompensated heart failure?",
-   opts:["It replaces lost potassium","It is a potent loop diuretic producing rapid, large-volume diuresis — quickly reducing preload and pulmonary/peripheral congestion","It shrinks the prostate to improve urine flow","It pulls fluid from the brain by osmosis"],
-   ans:1,fb:"✅ Furosemide acts in the Loop of Henle, blocking Na+/K+/2Cl- cotransport. This powerful diuresis rapidly reduces intravascular volume and alleviates pulmonary and peripheral edema — critical in acute decompensated HF."},
-  {badge:"qb-m",bl:"Mechanism of action",q:"Furosemide's mechanism of action is:",
-   opts:["Blocks aldosterone receptors in the collecting duct","Inhibits Na+/K+/2Cl- cotransporter in the thick ascending Loop of Henle, producing potassium-wasting diuresis","Increases osmotic pressure to pull fluid into the tubule","Blocks alpha-1 receptors to relax smooth muscle"],
-   ans:1,fb:"✅ Furosemide blocks the Na+/K+/2Cl- cotransporter in the Loop of Henle — the most powerful segment for reabsorption. Large volumes of dilute urine are produced. KEY: it WASTES potassium — always monitor K+!"},
-  {badge:"qb-i",bl:"Contraindications",q:"The most important electrolyte to monitor with Furosemide is:",
-   opts:["Sodium — risk of severe hypernatremia","Potassium — Furosemide wastes K+, causing hypokalemia which can trigger dangerous cardiac dysrhythmias","Calcium — risk of hypercalcemia with loop diuretics","Phosphate — risk of hyperphosphatemia"],
-   ans:1,fb:"✅ Furosemide WASTES potassium. Hypokalemia can cause life-threatening cardiac dysrhythmias (especially dangerous with concurrent Digoxin!). Monitor K+ closely and supplement as needed. Also watch for dehydration and orthostatic hypotension."}
- ],
- pearl:"Furosemide = K+ WASTING. Suffix: -ide. Monitor for hypokalemia — deadly with Digoxin. Contraindicated in anuria. Hold if no urine output.",
- outcome:"Furosemide 40mg IV given! Urine output excellent. Edema beginning to resolve. Weight monitoring q4h."
-},
-{name:"Mr. Garcia, 62",icon:"👨",hair:"#3a2010",skin:"#c07040",diff:"easy",mod:6,
- title:"Hypertension + dry cough complaint",
- desc:"Mr. Garcia has HTN and was started on Lisinopril 6 weeks ago. He now reports a persistent dry, nonproductive cough. No infection found. BP well-controlled at 128/82. Doctor wants to switch medication class.",
- vitals:[{l:"BP",v:"128/82"},{l:"HR",v:"72 bpm"},{l:"Cough",v:"Chronic"}],
- bubble:"This cough is driving me crazy!",
- correct:"Losartan",
- decoys:["Lisinopril","Amlodipine","Metoprolol"],
- qs:[
-  {badge:"qb-w",bl:"Why this drug?",q:"Why switch Mr. Garcia from Lisinopril to Losartan?",
-   opts:["Losartan is cheaper than Lisinopril","Losartan blocks Angiotensin II receptors — same BP control as ACE inhibitors WITHOUT causing the dry cough side effect","Losartan is stronger for heart failure","Losartan can be given IM for faster effect"],
-   ans:1,fb:"✅ ACE inhibitors (Lisinopril) block conversion of Ang I → Ang II BUT also prevent bradykinin breakdown — bradykinin accumulation causes the dry cough in 10-15% of patients. ARBs (Losartan) block Ang II receptors without affecting bradykinin — no cough!"},
-  {badge:"qb-m",bl:"Mechanism of action",q:"Losartan's mechanism of action compared to Lisinopril:",
-   opts:["Both work identically — they are interchangeable","Losartan blocks AT1 Angiotensin II receptors; Lisinopril blocks ACE enzyme. Both reduce vasoconstriction but Losartan does NOT affect bradykinin","Losartan inhibits renin directly at the kidney","Losartan blocks calcium channels to relax vessels"],
-   ans:1,fb:"✅ Lisinopril inhibits ACE → less Ang II AND less bradykinin breakdown (bradykinin causes cough). Losartan blocks AT1 receptors directly → less Ang II effect, but bradykinin is unaffected → NO COUGH. Both are contraindicated in pregnancy!"},
-  {badge:"qb-i",bl:"Contraindications",q:"Both ACE inhibitors AND ARBs are absolutely contraindicated in:",
-   opts:["Patients with diabetes mellitus","Pregnancy — teratogenic, causing fetal renal dysgenesis and oligohydramnios","Patients older than 65 years","Patients with a history of kidney stones"],
-   ans:1,fb:"✅ ACE inhibitors AND ARBs are CATEGORY X in pregnancy — they cause fetal renal dysgenesis, oligohydramnios, and neonatal renal failure. BOTH classes cause hyperkalemia — monitor K+. Lisinopril also risks angioedema."}
- ],
- pearl:"ACE inhibitors (-pril) → dry cough from bradykinin accumulation. Switch to ARB (-sartan) — same benefit, no cough. BOTH contraindicated in pregnancy!",
- outcome:"Losartan started! Cough should resolve within 1-2 weeks. BP monitoring continued. Patient educated on the difference."
-},
-{name:"Mrs. Thompson, 70",icon:"👵",hair:"#c8c8c8",skin:"#d4a574",diff:"medium",mod:6,
- title:"Acute angina — chest tightness on exertion",
- desc:"Mrs. Thompson has a history of CAD and presents with chest tightness that started 10 minutes ago while walking to the bathroom. BP 160/95, HR 88. No ST changes on ECG. She has had this before.",
- vitals:[{l:"BP",v:"160/95",red:true},{l:"HR",v:"88 bpm"},{l:"ECG",v:"No STE"}],
- bubble:"The pressure in my chest again!",
- correct:"Nitroglycerin",
- decoys:["Aspirin","Metoprolol","Amlodipine"],
- qs:[
-  {badge:"qb-w",bl:"Why this drug?",q:"Why is Nitroglycerin the first treatment for acute angina?",
-   opts:["To permanently widen the coronary arteries","To rapidly dilate coronary arteries and reduce cardiac preload/afterload, relieving ischemic chest pain within minutes","To thin the blood and prevent clot formation","To slow the heart rate and reduce oxygen demand"],
-   ans:1,fb:"✅ Nitroglycerin converts to nitric oxide (NO) → activates guanylate cyclase → increases cGMP → smooth muscle relaxation → venodilation (reduces preload) and coronary vasodilation. Relief expected within 1-3 minutes sublingual."},
-  {badge:"qb-m",bl:"Mechanism of action",q:"Nitroglycerin's mechanism of action is:",
-   opts:["Beta-1 blockade reducing heart rate and contractility","Acts as a nitric oxide donor → relaxes smooth muscle → vasodilation (venous > arterial), reducing preload and improving coronary perfusion","Blocks calcium entry into smooth muscle cells","Inhibits ACE to reduce angiotensin-mediated vasoconstriction"],
-   ans:1,fb:"✅ Nitroglycerin → NO → cGMP → smooth muscle relaxation. Primarily venodilation reduces preload (less work for the heart). Coronary vasodilation improves blood supply to ischemic myocardium. Headache is expected!"},
-  {badge:"qb-i",bl:"Contraindications",q:"Nitroglycerin is ABSOLUTELY contraindicated with:",
-   opts:["Beta blockers like Metoprolol","Sildenafil (Viagra) and other PDE5 inhibitors — combined vasodilation causes severe, potentially fatal hypotension","ACE inhibitors like Lisinopril","Statins like Atorvastatin"],
-   ans:1,fb:"✅ Nitroglycerin + PDE5 inhibitors (Viagra, Cialis, Levitra) = LETHAL combination. Both cause vasodilation — combined effect causes severe, refractory hypotension. ALWAYS ask about ED medications before giving NTG. Store in dark glass container!"}
- ],
- pearl:"NTG + Viagra = dangerous hypotension — always ask! Headache expected (vasodilation). Store in dark glass. Give SL up to 3x every 5 min — call 911 if no relief.",
- outcome:"Nitroglycerin 0.4mg SL given! Chest pain resolved within 3 minutes. BP now 142/88. Monitoring for headache and hypotension."
-},
-{name:"Mr. Patel, 52",icon:"👨",hair:"#2a1a0a",skin:"#8B6347",diff:"easy",mod:7,
- title:"Acute asthma attack — wheezing!",
- desc:"Mr. Patel presents to the ED in moderate respiratory distress. Audible wheezing bilaterally, accessory muscle use, SpO2 91% on room air. History of asthma. Needs a rescue bronchodilator immediately.",
- vitals:[{l:"SpO2",v:"91%",red:true},{l:"RR",v:"24/min",red:true},{l:"Wheeze",v:"Bilateral"}],
- bubble:"I can't breathe properly!",
- correct:"Albuterol",
- decoys:["Ipratropium","Guaifenesin","Amiodarone"],
- qs:[
-  {badge:"qb-w",bl:"Why this drug?",q:"Why is Albuterol the first-line treatment for acute asthma attack?",
-   opts:["It reduces airway inflammation long-term","It rapidly stimulates Beta-2 receptors in bronchial smooth muscle causing bronchodilation within minutes — it is the rescue inhaler","It is the only medication safe in asthma","It thins mucus secretions to clear the airways"],
-   ans:1,fb:"✅ Albuterol is a Short-Acting Beta-2 Agonist (SABA). It stimulates Beta-2 receptors → increases cAMP → relaxes bronchial smooth muscle → bronchodilation in 5-15 minutes. It is the RESCUE inhaler for acute attacks."},
-  {badge:"qb-m",bl:"Mechanism of action",q:"Albuterol's mechanism of action is:",
-   opts:["Blocks muscarinic receptors to prevent bronchoconstriction","Stimulates Beta-2 adrenergic receptors → increases cAMP → bronchial smooth muscle relaxation and bronchodilation","Inhibits leukotriene receptors to reduce inflammation","Blocks calcium channels in bronchial smooth muscle"],
-   ans:1,fb:"✅ Albuterol: Beta-2 agonist → ↑cAMP via adenylyl cyclase → protein kinase A activation → smooth muscle relaxation → bronchodilation. Side effects: jitteriness, tachycardia (some Beta-1 crossover). Onset 5-15 min, duration 4-6 hr."},
-  {badge:"qb-i",bl:"Indications & contraindications",q:"Albuterol is contraindicated or used with caution in:",
-   opts:["Patients with asthma (never use)","Patients with dysrhythmias — Beta-2 stimulation can cause tachycardia and cardiac arrhythmias, especially at high doses","Patients with COPD exacerbations","Patients with mild allergic reactions"],
-   ans:1,fb:"✅ Use with CAUTION in dysrhythmias — Albuterol's Beta-2 activity can cause reflex tachycardia and palpitations. At high doses, Beta-1 crossover occurs → arrhythmias. Ipratropium (Anticholinergic) is the maintenance COPD drug, NOT a rescue inhaler."}
- ],
- pearl:"Albuterol = RESCUE inhaler (SABA). Side effects: jitters, tachycardia. Ipratropium = maintenance (not rescue). Contraindicated in dysrhythmias.",
- outcome:"Albuterol via nebulizer given! Wheezing decreased significantly. SpO2 rising to 96%. Monitoring for dysrhythmias."
-},
-{name:"Mrs. Wong, 66",icon:"👵",hair:"#1a1a1a",skin:"#d4a574",diff:"medium",mod:4,
- title:"Acute ischemic stroke — 2 hours ago",
- desc:"Mrs. Wong presents with sudden right-sided weakness and aphasia that started 2 hours ago. CT head: no hemorrhage. NIHSS score 14. BP 168/92. She is within the treatment window. MD orders thrombolytic therapy.",
- vitals:[{l:"BP",v:"168/92"},{l:"NIHSS",v:"14 (mod)"},{l:"Onset",v:"2 hrs ago"}],
- bubble:"I... can't... find words...",
- correct:"Alteplase",
- decoys:["Aspirin","Heparin","Warfarin"],
- qs:[
-  {badge:"qb-w",bl:"Why this drug?",q:"Why is Alteplase used for acute ischemic stroke?",
-   opts:["To prevent future strokes by thinning the blood long-term","To dissolve the existing clot by converting plasminogen to plasmin — must be given within 3-4.5 hours of symptom onset","To lower blood pressure rapidly during the stroke","To reduce brain swelling after the stroke"],
-   ans:1,fb:"✅ Alteplase (tPA) converts plasminogen to plasmin → plasmin breaks down fibrin in the clot → thrombolysis. CRITICAL: must be given within 3-4.5 hours of symptom onset. ABSOLUTELY confirm no hemorrhage on CT before giving!"},
-  {badge:"qb-m",bl:"Mechanism of action",q:"Alteplase's mechanism of action is:",
-   opts:["Inhibits thrombin directly to prevent new clot formation","Binds fibrin in thrombus → converts plasminogen to plasmin → breaks down existing fibrin clot (thrombolysis)","Blocks Vitamin K to deplete clotting factors","Inhibits platelet aggregation via ADP receptor blockade"],
-   ans:1,fb:"✅ Alteplase is a tissue plasminogen activator (tPA). It preferentially binds fibrin in thrombi → converts fibrin-bound plasminogen to plasmin → clot lysis. Suffix: -plase. Used for stroke, massive PE, and STEMI."},
-  {badge:"qb-i",bl:"Contraindications",q:"Which finding would CONTRAINDICATE giving Alteplase to Mrs. Wong?",
-   opts:["Blood pressure of 168/92","Evidence of hemorrhage on CT scan, recent surgery within 14 days, or active internal bleeding","A history of hypertension","Age over 65 years"],
-   ans:1,fb:"✅ Absolute contraindications: hemorrhage on CT (would cause catastrophic bleeding!), recent surgery/trauma (<14 days), active bleeding, prior intracranial hemorrhage, BP >185/110 (must treat first). The 3-4.5 hour window is critical — verify time of onset carefully!"}
- ],
- pearl:"Alteplase (-plase): clot BUSTER. Window: 3-4.5 hours. ALWAYS CT before giving — hemorrhage is absolute contraindication. BP must be <185/110.",
- outcome:"Alteplase infusion started! Neurological team monitoring closely. Right-sided weakness showing early improvement. CT repeat in 24 hours."
-}
-];
-
-const MOD_NAMES={2:"Module 2: Core Pharm",3:"Module 3: Immune & Infection",4:"Module 4: Hematology & Cancer",5:"Module 5: Nervous System",6:"Module 6: Cardiovascular",7:"Module 7: Pulmonary",8:"Module 8: Renal & Urinary",9:"Module 9: Endocrine",10:"Module 10: GI",11:"Module 11: Musculoskeletal"};
-
-let G={sc:null,phase:'idle',nurseSelected:false,hasDrug:false,drugName:'',score:0,qIdx:0,qDone:false,wrongCount:0};
-
-const $=id=>document.getElementById(id);
-function setHint(el,t){if(el)el.textContent=t}
-let speechTimer=null;
-function say(txt,ms=2200){
-  const s=$('speech');s.textContent=txt;s.className='show';
-  clearTimeout(speechTimer);
-  if(ms>0)speechTimer=setTimeout(()=>s.className='',ms);
-}
-function dots(active){
-  for(let i=0;i<5;i++){
-    const d=$('sd'+i);
-    d.className='sd'+(i<active?' done':i===active?' active':'');
-  }
-}
-function pb(html){$('pb').innerHTML=html}
-function nurseGlow(on){
-  $('nurse').style.outline=on?'2.5px solid #7F77DD':'none';
-  $('nurse').style.borderRadius=on?'4px':'';
-}
-
-function walk(x,cb){
-  const n=$('nurse');
-  n.classList.add('walking');
-  n.style.left=x+'px';
-  setTimeout(()=>{n.classList.remove('walking');if(cb)cb();},600);
-}
-
-// HOME
 function buildHome(){
-  $('home').style.display='block';
-  $('game').style.display='none';
-  const mods=[...new Set(SCENARIOS.map(s=>s.mod))].sort((a,b)=>a-b);
-  const list=$('sc-list');
-  list.innerHTML='';
-  mods.forEach(m=>{
-    const scInMod=SCENARIOS.filter(s=>s.mod===m);
-    const mh=document.createElement('div');
-    mh.className='mod-header';
-    mh.textContent=MOD_NAMES[m]||'Module '+m;
-    list.appendChild(mh);
-    const sl=document.createElement('div');
-    sl.className='sc-list';
-    scInMod.forEach(sc=>{
-      const d=document.createElement('div');
-      d.className='sc-item';
-      const dc=sc.diff==='easy'?'de':sc.diff==='medium'?'dm':'dh';
-      const bg=sc.diff==='easy'?'#E1F5EE':sc.diff==='hard'?'#FAECE7':'#FAEEDA';
-      d.innerHTML=`<div class="sc-ico" style="background:${bg}">${sc.icon}</div>
-      <div><div class="sc-name">${sc.name}</div><div class="sc-sub">${sc.title}</div><div class="diff ${dc}">${sc.diff}</div></div>`;
-      d.onclick=()=>startSc(sc);
-      sl.appendChild(d);
-    });
-    list.appendChild(sl);
+  $('home').style.display='block';$('game').style.display='none';
+  var mods=[];SC.forEach(function(s){if(mods.indexOf(s.mod)<0)mods.push(s.mod);});mods.sort(function(a,b){return a-b;});
+  var list=$('sc-list');list.innerHTML='';
+  mods.forEach(function(m){
+    var inMod=SC.filter(function(s){return s.mod===m;});
+    var mh=document.createElement('div');mh.className='mod-hdr';mh.innerHTML=MOD_NAMES[m]||'Module '+m;list.appendChild(mh);
+    var sl=document.createElement('div');sl.className='sc-wrap';
+    inMod.forEach(function(sc){
+      var d=document.createElement('div');d.className='sc-item';
+      var bg=sc.diff==='easy'?'#e1f5ee':sc.diff==='hard'?'#faece7':'#faeeda';
+      var dv=sc.diff==='easy'?'de':sc.diff==='hard'?'dh':'dm';
+      d.innerHTML='<div class="sc-ico" style="background:'+bg+'">'+sc.icon+'</div><div><div class="sc-name">'+sc.name+'</div><div class="sc-sub">'+sc.title+'</div><div class="diff '+dv+'">'+sc.diff+'</div></div>';
+      d.onclick=(function(s){return function(){startSc(s);};})(sc);sl.appendChild(d);
+    });list.appendChild(sl);
   });
 }
 
-function goHome(){
-  clearTimeout(speechTimer);
-  $('home').style.display='block';
-  $('game').style.display='none';
-}
+function goHome(){clearTimeout(spT);$('home').style.display='block';$('game').style.display='none';}
 
 function startSc(sc){
-  G={sc,phase:'assess',nurseSelected:false,hasDrug:false,drugName:'',score:0,qIdx:0,qDone:false,wrongCount:0};
-  $('home').style.display='none';
-  $('game').style.display='flex';
-  $('pt-hair').style.background=sc.hair;
-  $('pt-head').style.background=sc.skin;
-  const n=$('nurse');
-  n.style.left='80px';n.classList.remove('walking');
-  $('nheld').style.display='none';
-  $('cd').classList.remove('open');
-  $('drug-popup').className='';
-  nurseGlow(false);
-  $('speech').className='';
-  dots(0);
-  $('slabel').textContent='Tap Nurse Alex to begin';
-  setHint($('nurse-hint'),'tap me!');
-  setHint($('cab-hint'),'tap nurse first');
-  setHint($('bed-hint'),'get drug first');
+  G={sc:sc,phase:'assess',nurseSelected:false,hasDrug:false,score:0,qIdx:0,qDone:false,wrongCount:0};
+  $('home').style.display='none';$('game').style.display='flex';
+  $('pt-hair').style.background=sc.hair;$('pt-head').style.background=sc.skin;
+  var n=$('nurse');n.style.left='80px';n.classList.remove('walking');
+  $('nheld').style.display='none';$('cd').classList.remove('open');
+  $('drug-overlay').className='';
+  glow(false);$('speech').className='';
+  dots(0);$('slabel').textContent='Tap Nurse Alex to begin';
+  $('nurse-hint').textContent='tap me!';$('cab-hint').textContent='tap nurse first';$('bed-hint').textContent='get drug first';
   $('bed').style.cursor='default';
   renderAssess();
-  setupTaps();
-  if(sc.bubble) setTimeout(()=>say(sc.bubble,3200),500);
-}
-
-function setupTaps(){
-  $('nurse').onclick=tapNurse;
-  $('cabinet').onclick=tapCabinet;
-  $('bed').onclick=tapBed;
+  $('nurse').onclick=tapNurse;$('cabinet').onclick=tapCabinet;$('bed').onclick=tapBed;
+  if(sc.bubble)setTimeout(function(){say(sc.bubble,3000);},500);
 }
 
 function tapNurse(){
   if(G.phase==='outcome')return;
-  G.nurseSelected=true;
-  nurseGlow(true);
-  $('nurse').classList.add('pring');
-  setTimeout(()=>$('nurse').classList.remove('pring'),1200);
-  say('Ready! Where should I go?',1800);
-  setHint($('nurse-hint'),'selected!');
-  setHint($('cab-hint'),G.hasDrug?'already have drug':'tap me!');
-  setHint($('bed-hint'),G.hasDrug?'tap me!':'get drug first');
-  if(G.hasDrug) $('bed').style.cursor='pointer';
+  G.nurseSelected=true;glow(true);
+  $('nurse').classList.add('pring');setTimeout(function(){$('nurse').classList.remove('pring');},1200);
+  say('Ready! Where to?',1800);
+  $('nurse-hint').textContent='selected!';
+  $('cab-hint').textContent=G.hasDrug?'have drug':'tap me!';
+  $('bed-hint').textContent=G.hasDrug?'tap me!':'get drug first';
+  if(G.hasDrug)$('bed').style.cursor='pointer';
 }
 
 function tapCabinet(){
-  if(!G.nurseSelected){say('Tap Nurse Alex first! 👆',1800);return;}
-  if(G.hasDrug){say("I already have the drug!",1800);return;}
-  nurseGlow(false);
-  $('nurse').classList.remove('pring');
-  G.nurseSelected=false;
-  walk(14,()=>{
+  if(!G.nurseSelected){say('Tap Nurse Alex first!',1800);return;}
+  if(G.hasDrug){say('I already have the drug!',1800);return;}
+  glow(false);$('nurse').classList.remove('pring');G.nurseSelected=false;
+  walk(14,function(){
     $('cd').classList.add('open');
-    say('Choose the correct drug! 💊',2500);
-    openDrugPopup();
-    dots(1);
-    $('slabel').textContent='Select the correct drug';
-    setHint($('cab-hint'),'choose a drug');
+    say('Choose the correct drug!',2500);
+    buildOverlay();
+    dots(1);$('slabel').textContent='Select the correct drug';$('cab-hint').textContent='choose above';
   });
 }
 
 function tapBed(){
-  if(!G.nurseSelected){say('Tap Nurse Alex first! 👆',1800);return;}
-  if(!G.hasDrug){say("I need to get a drug first!",1800);return;}
-  nurseGlow(false);
-  $('nurse').classList.remove('pring');
-  G.nurseSelected=false;
-  closeDrugPopup();
-  walk(148,()=>{
-    say('Answering safety check before administering! 📋',2400);
-    setHint($('bed-hint'),'');
-    setHint($('nurse-hint'),'');
-    G.phase='questions';
-    dots(2);
-    $('slabel').textContent='Pre-administration check';
-    renderQ();
+  if(!G.nurseSelected){say('Tap Nurse Alex first!',1800);return;}
+  if(!G.hasDrug){say('Need to get a drug first!',1800);return;}
+  glow(false);$('nurse').classList.remove('pring');G.nurseSelected=false;
+  closeOverlay();
+  walk(148,function(){
+    say('Safety check before administering!',2400);
+    $('bed-hint').textContent='';$('nurse-hint').textContent='';
+    G.phase='questions';dots(2);$('slabel').textContent='Pre-administration check';renderQ();
   });
 }
 
-function openDrugPopup(){
-  const sc=G.sc;
-  const drugs=[sc.correct,...sc.decoys];
-  const shuffled=drugs.sort(()=>Math.random()-0.5);
-  const inner=$('dp-inner');
-  inner.innerHTML='';
-  shuffled.forEach((name,i)=>{
-    const drug=ALL_DRUGS.find(d=>d.name===name)||{name,cls:'Pharmacologic agent'};
-    const div=document.createElement('div');
-    div.className='dp-drug pop';
-    div.style.animationDelay=(i*0.06)+'s';
-    div.innerHTML=`<div class="dp-pill" style="background:${dc(i)}"></div>
-    <div><div class="dp-name">${name}</div><div class="dp-class">${drug.cls}</div></div>`;
-    div.onclick=(e)=>{e.stopPropagation();selectDrug(name);};
-    inner.appendChild(div);
+function buildOverlay(){
+  var sc=G.sc;
+  var drugs=[sc.correct].concat(sc.decoys).sort(function(){return Math.random()-0.5;});
+  var grid=$('dov-grid');grid.innerHTML='';
+  drugs.forEach(function(name,i){
+    var cls=ALL[name]||'Pharmacologic agent';
+    var div=document.createElement('div');div.className='dov-drug pop';div.style.animationDelay=(i*0.07)+'s';
+    div.innerHTML='<div class="dov-pill" style="background:'+dc(i)+'"></div><div><div class="dov-name">'+name+'</div><div class="dov-cls">'+cls+'</div></div>';
+    div.onclick=(function(n){return function(){selectDrug(n);};})(name);
+    grid.appendChild(div);
   });
-  $('drug-popup').className='show';
+  $('drug-overlay').className='show';
 }
 
-function closeDrugPopup(){
-  $('drug-popup').className='';
-  $('cd').classList.remove('open');
-}
+function closeOverlay(){$('drug-overlay').className='';$('cd').classList.remove('open');}
 
 function selectDrug(name){
-  const sc=G.sc;
+  var sc=G.sc;
   if(name===sc.correct){
-    closeDrugPopup();
-    G.hasDrug=true;G.drugName=name;
-    $('nheld').textContent='💊';$('nheld').style.display='block';
-    say('Got '+name+'! Tap me → tap the patient!',2500);
-    dots(1);
-    $('slabel').textContent='Now tap the patient!';
-    setHint($('nurse-hint'),'tap me!');
-    setHint($('bed-hint'),'tap nurse → tap patient');
-    setHint($('cab-hint'),'');
+    closeOverlay();G.hasDrug=true;
+    $('nheld').innerHTML='<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="8" width="20" height="8" rx="4" fill="#e05050" stroke="#b03030" stroke-width="1.5"/><line x1="12" y1="8" x2="12" y2="16" stroke="#b03030" stroke-width="1.5"/><rect x="2" y="8" width="10" height="8" rx="4" fill="#e87070"/></svg>';$('nheld').style.display='block';
+    say('Got '+name+'! Tap me then tap patient!',2500);
+    dots(1);$('slabel').textContent='Now tap the patient!';
+    $('nurse-hint').textContent='tap me!';$('bed-hint').textContent='nurse then patient';$('cab-hint').textContent='';
     $('bed').style.cursor='pointer';
-    pb(`<div class="ic pop" style="border-color:#1D9E75">
-      <div class="ic-t" style="color:#0F6E56">✅ Correct drug selected!</div>
-      <div class="ic-b">You picked <b>${name}</b>. Tap Nurse Alex, then tap the patient to administer.</div>
-    </div>`);
+    pb('<div class="ic pop" style="border-color:#1D9E75;border-width:2px"><div class="ic-t" style="color:#0F6E56">CORRECT DRUG SELECTED</div><div class="ic-b">You picked <b>'+name+'</b>. Now tap Nurse Alex, then tap the patient to administer.</div></div>');
   } else {
-    G.wrongCount++;
-    say("That's not right — try again!",2000);
-    const pop=$('drug-popup');
-    pop.classList.add('shk');
-    setTimeout(()=>pop.classList.remove('shk'),300);
-    pb(`<div class="ic pop" style="border-color:#D85A30">
-      <div class="ic-t" style="color:#993C1D">⚠️ Wrong drug — try again!</div>
-      <div class="ic-b">Think about the patient's chief complaint: <i>"${sc.title}"</i>. Choose the drug that directly addresses this problem.</div>
-    </div>`);
+    G.wrongCount++;say('Not right - try again!',2000);
+    var box=$('drug-box');box.classList.add('shk');setTimeout(function(){box.classList.remove('shk');},300);
+    pb('<div class="ic pop" style="border-color:#D85A30;border-width:2px"><div class="ic-t" style="color:#993C1D">WRONG DRUG - TRY AGAIN</div><div class="ic-b">Hint: think about <i>"'+sc.title+'"</i> - what drug directly addresses this problem?</div></div>');
   }
 }
 
 function renderAssess(){
-  const sc=G.sc;
-  pb(`<div class="ic pop">
-    <div class="ic-t">🩺 patient assessment — ${sc.name}</div>
-    <div class="ic-b">${sc.desc}</div>
-    <div class="vitals">${sc.vitals.map(v=>`<div class="vit${v.red?' red':''}"><div>${v.l}</div><b>${v.v}</b></div>`).join('')}</div>
-  </div>
-  <div class="ic" style="background:#EEEDFE;border-color:#AFA9EC">
-    <div class="ic-t" style="color:#534AB7">instructions</div>
-    <div class="ic-b" style="color:#3C3489;font-size:12px">1️⃣ Tap <b>Nurse Alex</b><br>2️⃣ Tap <b>drug cabinet</b> — she walks over &amp; drugs appear<br>3️⃣ Tap the <b>correct drug</b> from the popup<br>4️⃣ Tap <b>Nurse Alex</b> → tap <b>patient</b> to administer</div>
-  </div>`);
+  var sc=G.sc;
+  pb('<div class="ic pop"><div class="ic-t">PATIENT ASSESSMENT - '+sc.name+'</div><div class="ic-b">'+sc.desc+'</div><div class="vitals">'+sc.vitals.map(function(v){return '<div class="vit'+(v.red?' red':'')+'"><div>'+v.l+'</div><b>'+v.v+'</b></div>';}).join('')+'</div></div><div class="ic" style="background:#EEEDFE;border-color:#AFA9EC;border-width:1.5px"><div class="ic-t" style="color:#534AB7">HOW TO PLAY</div><div class="ic-b" style="color:#3C3489;font-size:12px">1. Tap <b>Nurse Alex</b> (she glows purple)<br>2. Tap the <b>cabinet</b> - she walks over, drug choices appear as a popup over the room<br>3. Tap the <b>correct drug</b> from the popup<br>4. Tap <b>Nurse Alex</b> again, then tap the <b>patient</b></div></div>');
 }
 
 function renderQ(){
-  const sc=G.sc;
+  var sc=G.sc;
   if(G.qIdx>=sc.qs.length){adminDrug();return;}
-  dots(2+G.qIdx);
-  $('slabel').textContent=`Safety check ${G.qIdx+1}/${sc.qs.length}`;
-  const q=sc.qs[G.qIdx];
-  G.qDone=false;
-  pb(`<div class="qc pop">
-    <div class="qb ${q.badge}">${q.bl}</div>
-    <div class="qt">${q.q}</div>
-    <div class="opts" id="opts">
-      ${q.opts.map((o,i)=>`<div class="opt" onclick="pickOpt(${i})">${o}</div>`).join('')}
-    </div>
-    <div id="fb" style="display:none"></div>
-    <button class="abtn abtn-p" id="nxtbtn" style="display:none" onclick="nextQ()">Next →</button>
-  </div>`);
+  dots(2+G.qIdx);$('slabel').textContent='Safety check '+(G.qIdx+1)+'/'+sc.qs.length;
+  var q=sc.qs[G.qIdx];G.qDone=false;
+  pb('<div class="qc pop"><div class="qb '+q.badge+'">'+q.bl+'</div><div class="qt">'+q.q+'</div><div class="opts" id="opts">'+q.opts.map(function(o,i){return '<div class="opt" onclick="pickOpt('+i+')">'+o+'</div>';}).join('')+'</div><div id="fb" style="display:none"></div><button class="abtn abtn-p" id="nxtbtn" style="display:none" onclick="nextQ()">Next &rarr;</button></div>');
 }
 
 function pickOpt(i){
-  if(G.qDone)return;
-  G.qDone=true;
-  const q=G.sc.qs[G.qIdx];
-  document.querySelectorAll('.opt').forEach((o,idx)=>{
+  if(G.qDone)return;G.qDone=true;
+  var q=G.sc.qs[G.qIdx];
+  var opts=document.querySelectorAll('.opt');
+  opts.forEach(function(o,idx){
     if(idx===q.ans)o.className='opt rev';
     else if(idx===i&&i!==q.ans)o.className='opt wrg';
     else o.style.opacity='0.4';
   });
-  const ok=i===q.ans;
-  if(ok)G.score+=20;
-  const fb=$('fb');fb.style.display='block';
-  fb.innerHTML=`<div class="fb ${ok?'ok':'bad'} pop">${q.fb}</div>`;
+  var ok=i===q.ans;if(ok)G.score+=20;
+  var fb=$('fb');fb.style.display='block';
+  fb.innerHTML='<div class="fb '+(ok?'ok':'bad')+' pop">'+q.fb+'</div>';
   $('nxtbtn').style.display='block';
-  say(ok?'Correct! ✅':'Read the explanation 📖',1800);
+  say(ok?'Correct!':'Check the explanation!',1800);
 }
 
 function nextQ(){G.qIdx++;renderQ();}
@@ -781,31 +574,23 @@ function nextQ(){G.qIdx++;renderQ();}
 function adminDrug(){
   dots(4);$('slabel').textContent='Administering!';
   $('nheld').style.display='none';G.hasDrug=false;G.phase='outcome';
-  say('Safely administered! ✅',2500);
-  walk(148,()=>setTimeout(showOutcome,700));
+  say('Safely administered!',2800);
+  walk(148,function(){setTimeout(showOutcome,700);});
 }
 
 function showOutcome(){
-  const sc=G.sc;
-  const pct=Math.round((G.score/(sc.qs.length*20))*100);
-  let icon='🏆',title='Excellent work!';
-  if(pct<60){icon='📚';title='Needs more review';}
-  else if(pct<80){icon='👍';title='Good job!';}
-  say('Patient is safe! Great nursing! 🌟',3500);
-  setHint($('nurse-hint'),'');setHint($('cab-hint'),'');setHint($('bed-hint'),'');
+  var sc=G.sc;
+  var pct=Math.round((G.score/(sc.qs.length*20))*100);
+  var icon='&#127942;',title='Excellent work!';
+  if(pct<60){icon='&#128218;';title='Needs more review';}
+  else if(pct<80){icon='&#128077;';title='Good job!';}
+  say('Patient is safe! Great nursing!',3500);
+  $('nurse-hint').textContent='';$('cab-hint').textContent='';$('bed-hint').textContent='';
   $('nurse').onclick=null;$('cabinet').onclick=null;$('bed').onclick=null;
-  pb(`<div class="ow pop">
-    <div class="ow-i">${icon}</div>
-    <div class="ow-t">${title}</div>
-    <div class="ow-d">${sc.outcome}</div>
-    <div class="ow-stats">
-      <div class="ows"><div class="owsv">${G.score}/${sc.qs.length*20}</div><div class="owsl">Score</div></div>
-      <div class="ows"><div class="owsv">${G.wrongCount===0?'✅ None':'⚠️ '+G.wrongCount}</div><div class="owsl">Wrong picks</div></div>
-    </div>
-    <div class="pc"><div class="pt">⭐ Clinical Pearl</div><div class="pb2">${sc.pearl}</div></div>
-    <button class="abtn abtn-g" onclick="goHome()">← Choose Next Patient</button>
-  </div>`);
+  pb('<div class="ow pop"><div class="ow-i">'+icon+'</div><div class="ow-t">'+title+'</div><div class="ow-d">'+sc.outcome+'</div><div class="ow-stats"><div class="ows"><div class="owsv">'+G.score+'/'+(sc.qs.length*20)+'</div><div class="owsl">Score</div></div><div class="ows"><div class="owsv">'+(G.wrongCount===0?'None':'Wrong: '+G.wrongCount)+'</div><div class="owsl">Drug picks</div></div></div><div class="pc"><div class="pt2">Clinical Pearl</div><div class="pb3">'+sc.pearl+'</div></div><button class="abtn abtn-g" onclick="goHome()">&larr; Choose Next Patient</button></div>');
 }
 
 buildHome();
 </script>
+</body>
+</html>
